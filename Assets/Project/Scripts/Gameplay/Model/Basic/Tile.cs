@@ -46,11 +46,6 @@
 
 		protected override void RegisterObservables()
 		{
-			if (iTilesSetter == null)
-			{
-				Debug.Log($"REN");
-				return;
-			}
 			iTilesSetter.AddTile(this);
 		}
 
