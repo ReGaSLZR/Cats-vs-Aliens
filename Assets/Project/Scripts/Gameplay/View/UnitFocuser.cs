@@ -10,8 +10,7 @@
     using Zenject;
     using System.Collections;
 
-    [RequireComponent(typeof(CinemachineVirtualCameraBase))]
-    public class CameraFocus : BaseReactiveMonoBehaviour
+    public class UnitFocuser : BaseReactiveMonoBehaviour
     {
 
         [SerializeField]
@@ -19,10 +18,19 @@
         private CinemachineVirtualCameraBase cam;
 
         [SerializeField]
+        [Required]
+        private SpriteRenderer unitHighlighter;
+
+        [SerializeField]
         private float delayOnChangeFocus = 1f;
 
         [Inject]
         private readonly ISequence.IGetter iSequenceGetter;
+
+        private void Awake()
+        {
+            unitHighlighter.enabled = false;
+        }
 
         protected override void RegisterObservables()
         {
@@ -37,7 +45,11 @@
 
         private IEnumerator CorChangeFocus(Transform focus)
         {
+            unitHighlighter.enabled = true;
+            unitHighlighter.transform.position = focus.position;
+
             yield return new WaitForSeconds(delayOnChangeFocus);
+
             cam.Follow = focus;
             cam.LookAt = focus;
         }
