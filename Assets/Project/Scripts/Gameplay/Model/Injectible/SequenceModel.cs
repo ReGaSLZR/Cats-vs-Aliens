@@ -3,6 +3,7 @@
 
     using NaughtyAttributes;
     using System.Collections.Generic;
+    using System.Linq;
     using UniRx;
     using UnityEngine;
     using Zenject;
@@ -13,14 +14,14 @@
 
         #region Private Fields
 
-        private readonly ReactiveProperty<Unit> rSequencedUnit
+        private readonly ReactiveProperty<Unit> rActiveUnit
             = new ReactiveProperty<Unit>();
 
         [SerializeField]
         [ReadOnly]
         private List<Unit> sequencedUnits = new List<Unit>();
 
-        private int sequencedIndex;
+        private int currentIndex;
 
         #endregion
 
@@ -40,8 +41,24 @@
 
         private void InitValues()
         {
-            rSequencedUnit.Value = null;
-            sequencedIndex = 0;
+            rActiveUnit.Value = null;
+            currentIndex = 0;
+        }
+
+        private void SetNextInSequence()
+        {
+            bool isUnset = true;
+            while (isUnset)
+            {
+                currentIndex = (currentIndex >= (sequencedUnits.Count - 1)) ?
+                        0 : (currentIndex + 1);
+                
+                if (sequencedUnits[currentIndex].Data.GetCurrentHp().Value > 0)
+                {
+                    rActiveUnit.Value = sequencedUnits[currentIndex];
+                    isUnset = false;
+                }
+            }
         }
 
         #endregion
@@ -55,32 +72,32 @@
 
         public void OrganizeSequence()
         {
-             //TODO
+            sequencedUnits = sequencedUnits
+                .OrderByDescending(unit => unit.Data.StatSpeed)
+                .ToList();
 
-            sequencedIndex = 0;
-            rSequencedUnit.Value = sequencedUnits[sequencedIndex];
+            currentIndex = 0;
+            rActiveUnit.Value = sequencedUnits[currentIndex];
         }
 
         public void FinishSequence(Unit unitHolder)
         {
-            if (unitHolder == null || rSequencedUnit.Value == null ||
-                (unitHolder.GetInstanceID() != rSequencedUnit.Value.GetInstanceID()))
+            if (unitHolder == null || rActiveUnit.Value == null ||
+                (unitHolder.GetInstanceID() != rActiveUnit.Value.GetInstanceID()))
             {
                 return;
             }
-            
-            sequencedIndex = (sequencedIndex >= (sequencedUnits.Count - 1)) ?
-                0 : (sequencedIndex + 1);
-            rSequencedUnit.Value = sequencedUnits[sequencedIndex];
+
+            SetNextInSequence();
         }
 
         #endregion
 
         #region Getter
 
-        public IReadOnlyReactiveProperty<Unit> GetSequencedUnit()
+        public IReadOnlyReactiveProperty<Unit> GetActiveUnit()
         {
-            return rSequencedUnit;
+            return rActiveUnit;
         }
 
         #endregion

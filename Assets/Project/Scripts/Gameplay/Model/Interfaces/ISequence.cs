@@ -15,7 +15,7 @@
 
         public interface IGetter
         {
-            IReadOnlyReactiveProperty<Unit> GetSequencedUnit();
+            IReadOnlyReactiveProperty<Unit> GetActiveUnit();
         }
 
     }

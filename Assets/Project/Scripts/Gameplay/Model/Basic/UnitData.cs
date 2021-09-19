@@ -11,22 +11,21 @@
     public class UnitData
     {
 
+        public const int MAX_SPEED = 10;
+        public const int MAX_HP = 10;
+
         #region Inspector Fields
 
         [SerializeField]
         private string displayName;
 
-        [ShowAssetPreview]
-        [SerializeField]
-        private Texture icon;
-
         [Header("Stats")]
 
         [SerializeField]
-        [Range(0, 50)]
+        [Range(0, MAX_HP)]
         private int statMaxHp;
         [SerializeField]
-        [Range(0, 10)]
+        [Range(0, MAX_SPEED)]
         private int statSpeed;
         [SerializeField]
         [Range(1, 10)]
@@ -49,7 +48,6 @@
         #region Accessors
 
         public string DisplayName => displayName;
-        public Texture Icon => icon;
 
         public int StatMaxHp => statMaxHp;
 

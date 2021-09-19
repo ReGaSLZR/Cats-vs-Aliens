@@ -26,7 +26,7 @@
 
         protected override void RegisterObservables()
         {
-            iSequenceGetter.GetSequencedUnit()
+            iSequenceGetter.GetActiveUnit()
                 .Where(unitHolder => (unitHolder != null))
                 .Subscribe(unitHolder => {
                     StopAllCoroutines();

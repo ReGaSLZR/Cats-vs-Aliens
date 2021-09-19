@@ -50,7 +50,7 @@
 
         private void Start()
         {
-            iSequenceGetter.GetSequencedUnit()
+            iSequenceGetter.GetActiveUnit()
                 .Where(unit => (unit != null) &&
                         (unit.GetInstanceID() == this.unit.GetInstanceID()))
                 .Subscribe(_ => OnMove())
