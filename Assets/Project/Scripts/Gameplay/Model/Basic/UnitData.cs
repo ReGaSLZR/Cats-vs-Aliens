@@ -43,7 +43,7 @@
         #endregion
 
         private readonly ReactiveProperty<int> rCurrentHp
-            = new ReactiveProperty<int>();
+            = new ReactiveProperty<int>(1);
 
         #region Accessors
 

@@ -8,7 +8,8 @@
     using UniRx;
     using UniRx.Triggers;
     using Zenject;
-    
+    using System.Collections;
+
     public class PlayerMovement : BaseMovement
     {
 
@@ -48,10 +49,17 @@
                 .Subscribe(destination =>
                 {
                     isMovementAllowed = false;
-                    SetPosition(destination);
-                    FinishMove();
+                    StopAllCoroutines();
+                    StartCoroutine(CorMove(destination));
                 })
                 .AddTo(disposablesBasic);
+        }
+
+        private IEnumerator CorMove(Tile destination)
+        {
+            SetPosition(destination);
+            yield return null;
+            FinishMove();
         }
 
         #endregion

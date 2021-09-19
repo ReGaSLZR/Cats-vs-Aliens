@@ -113,7 +113,7 @@
                     index++;
                     tile = list[index];
                 }
-                
+
                 var spawn = Instantiate(unit, 
                     (team == Team.Player) ? parentUnitPlayer : parentUnitEnemies);
                 spawn.SetBGColor(iThemeColors.GetBGColor(team));
@@ -125,7 +125,7 @@
 
                 if (index >= list.Count)
                 {
-                    return;
+                    break;
                 }
 
                 tile = list[index];
@@ -155,6 +155,8 @@
             }
 
             iInstantiator.InjectPrefab(spawn.gameObject);
+            LogUtil.PrintInfo(spawnTile.gameObject, GetType(), 
+                $"SpawnTile for team {team} | {spawnTile.Position}");
             movement.SetPosition(iTile.GetTileAt(spawnTile.Position));
         }
 
