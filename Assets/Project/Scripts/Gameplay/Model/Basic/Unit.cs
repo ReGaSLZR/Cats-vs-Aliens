@@ -1,5 +1,6 @@
 ﻿namespace ReGaSLZR.Gameplay.Model
 {
+    using Enum;
     using Util;
 
     using NaughtyAttributes;
@@ -51,13 +52,16 @@
 
         public int StatAttack => statAttack;
 
+        public Team Team;
+
         #endregion
 
         #region Class Implementation
 
-        public void Init()
+        public void Init(Team team)
         {
             rCurrentHp.Value = StatMaxHp;
+            Team = team;
         }
 
         public void Spawn(Vector2 position, Transform parent)

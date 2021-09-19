@@ -1,5 +1,7 @@
 ﻿namespace ReGaSLZR.Gameplay.Model
 {
+
+    using Enum;
     using Util;
 
     using UniRx;
@@ -23,6 +25,11 @@
         {
             base.InitValues();
             rScore.Value = 0;
+        }
+
+        protected override Team GetTeam()
+        {
+            return Team.Player;
         }
 
         #endregion

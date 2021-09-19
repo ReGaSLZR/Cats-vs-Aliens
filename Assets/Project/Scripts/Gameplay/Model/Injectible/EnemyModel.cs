@@ -55,6 +55,10 @@
 
         #region Class Implementation
 
+        protected virtual Team GetTeam() {
+            return Team.Enemy;
+        }
+
         protected virtual void InitValues()
         {
             rStatus.Value = TeamStatus.InPlay;
@@ -108,7 +112,7 @@
                 return;
             }
 
-            unit.Init();
+            unit.Init(GetTeam());
             unit.GetCurrentHp()
                 .Where(hp => hp <= 0)
                 .Subscribe(_ => OnUnitDeath())

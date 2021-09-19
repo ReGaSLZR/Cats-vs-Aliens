@@ -28,11 +28,17 @@
         [Inject]
 		private readonly ITiles.ISetter iTilesSetter;
 
-		#endregion
+        #endregion
 
-		#region Unity Callbacks
+        #region Unity Callbacks
 
-		private void OnDrawGizmos()
+        private void Start()
+        {
+			gameObject.name = "Tile " + transform.position.x + ":"
+				+ transform.position.y;
+        }
+
+        private void OnDrawGizmos()
 		{
 			if (!Application.isPlaying && transform.hasChanged)
 			{
