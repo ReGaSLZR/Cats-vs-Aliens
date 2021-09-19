@@ -10,7 +10,7 @@
     [CreateAssetMenu(fileName = "Player Model", 
         menuName = "Project/Create Player Injectible Model")]
     public class PlayerModel : EnemyModel, 
-        ITeams.IPlayerGetter, ITeams.PlayerSetter
+        ITeam.IPlayerGetter, ITeam.PlayerSetter
     {
 
         #region Private Fields
@@ -27,11 +27,6 @@
             rScore.Value = 0;
         }
 
-        protected override Team GetTeam()
-        {
-            return Team.Player;
-        }
-
         #endregion
 
         #region MonoInstaller Implementations
@@ -40,8 +35,8 @@
         {
             InitValues();
 
-            Container.Bind<ITeams.IPlayerGetter>().FromInstance(this);
-            Container.Bind<ITeams.PlayerSetter>().FromInstance(this);
+            Container.Bind<ITeam.IPlayerGetter>().FromInstance(this);
+            Container.Bind<ITeam.PlayerSetter>().FromInstance(this);
         }
 
         #endregion

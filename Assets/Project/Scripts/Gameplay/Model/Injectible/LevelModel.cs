@@ -2,23 +2,34 @@
 {
     using Enum;
     using Util;
-    
+
+    using Cinemachine;
+    using NaughtyAttributes;
     using UniRx;
+    using UnityEngine;
     using Zenject;
 
     public class LevelModel : MonoInstaller<LevelModel>,
-        ILevel.IGetter, ILevel.ISetter
+        ILevel.IGetter, ILevel.ISetter, ICamera.IGetter, ICamera.ISetter
     {
+
+        #region Inspector Fields
+
+        [SerializeField]
+        [Required]
+        private CinemachineVirtualCameraBase focusCam; 
+
+        #endregion
 
         #region Private Fields
 
-        protected CompositeDisposable disposables
+        protected readonly CompositeDisposable disposables
             = new CompositeDisposable();
 
-        private ReactiveProperty<LevelState> rState 
+        private readonly ReactiveProperty<LevelState> rState 
             = new ReactiveProperty<LevelState>();
 
-        private ReactiveProperty<string> rCurrentLog =
+        private readonly ReactiveProperty<string> rCurrentLog =
             new ReactiveProperty<string>();
 
         #endregion
@@ -43,6 +54,8 @@
         {
             Container.Bind<ILevel.IGetter>().FromInstance(this);
             Container.Bind<ILevel.ISetter>().FromInstance(this);
+            Container.Bind<ICamera.ISetter>().FromInstance(this);
+            Container.Bind<ICamera.IGetter>().FromInstance(this);
         }
 
         #endregion
@@ -86,6 +99,25 @@
         public IReadOnlyReactiveProperty<LevelState> GetState()
         {
             return rState;
+        }
+
+        #endregion
+
+        #region Camera Setter
+
+        public void SetFocusTarget(Transform focus)
+        {
+            focusCam.LookAt = focus;
+            focusCam.Follow = focus;
+        }
+
+        #endregion
+
+        #region Camera Getter
+
+        public Transform GetFocusTarget()
+        {
+            return focusCam.LookAt;
         }
 
         #endregion

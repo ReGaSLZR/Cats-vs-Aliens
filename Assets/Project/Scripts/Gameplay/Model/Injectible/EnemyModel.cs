@@ -11,7 +11,7 @@
     [CreateAssetMenu(fileName = "Enemy Model",
         menuName = "Project/Create Enemy Injectible Model")]
     public class EnemyModel : ScriptableObjectInstaller<EnemyModel>,
-        ITeams.IGetter, ITeams.ISetter
+        ITeam.IEnemyGetter, ITeam.IEnemySetter
     {
 
         #region Inspector Fields
@@ -38,8 +38,8 @@
         {
             InitValues(); 
 
-            Container.Bind<ITeams.IGetter>().FromInstance(this);
-            Container.Bind<ITeams.ISetter>().FromInstance(this);
+            Container.Bind<ITeam.IEnemyGetter>().FromInstance(this);
+            Container.Bind<ITeam.IEnemySetter>().FromInstance(this);
         }
 
         #endregion
@@ -54,10 +54,6 @@
         #endregion
 
         #region Class Implementation
-
-        protected virtual Team GetTeam() {
-            return Team.Enemy;
-        }
 
         protected virtual void InitValues()
         {
@@ -94,7 +90,6 @@
 
         #endregion
         
-
         #region Setter Implementation
 
         public void AddUnit(Unit unit)
@@ -112,7 +107,7 @@
                 return;
             }
 
-            unit.Init(GetTeam());
+            unit.Init();
             unit.GetCurrentHp()
                 .Where(hp => hp <= 0)
                 .Subscribe(_ => OnUnitDeath())

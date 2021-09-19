@@ -11,7 +11,7 @@
 
     [CreateAssetMenu(fileName = "Tile Model", menuName = "Project/Create Tile Model")]
     public class TileModel : ScriptableObjectInstaller<TileModel>,
-        ITiles.ISetter, ITiles.IGetter
+        ITile.ISetter, ITile.IGetter
     {
 
         #region Private Fields
@@ -25,8 +25,8 @@
         {
             InitValues();
 
-            Container.Bind<ITiles.IGetter>().FromInstance(this);
-            Container.Bind<ITiles.ISetter>().FromInstance(this);
+            Container.Bind<ITile.IGetter>().FromInstance(this);
+            Container.Bind<ITile.ISetter>().FromInstance(this);
         }
 
         #region Class Implementation
@@ -34,20 +34,6 @@
         private void InitValues()
         {
             rTiles.Value = new List<Tile>();
-        }
-
-        private Tile HasTileAt(Vector3 position)
-        {
-            var tiles = rTiles.Value;
-            foreach (var tile in tiles)
-            {
-                if (tile.Position.Equals(position))
-                {
-                    return tile;
-                }
-            }
-
-            return null;
         }
 
         #endregion
@@ -102,7 +88,21 @@
                     }
             }
 
-            return HasTileAt(desiredPosition);
+            return GetTileAt(desiredPosition);
+        }
+
+        public Tile GetTileAt(Vector3 position)
+        {
+            var tiles = rTiles.Value;
+            foreach (var tile in tiles)
+            {
+                if (tile.Position.Equals(position) && !tile.isOccupied)
+                {
+                    return tile;
+                }
+            }
+
+            return null;
         }
 
         #endregion

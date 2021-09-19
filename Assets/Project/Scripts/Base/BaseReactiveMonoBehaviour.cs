@@ -40,7 +40,8 @@
 
         #endregion
 
-        protected abstract void RegisterObservables();
+        protected virtual void RegisterObservables()
+        { }
 
     }
 

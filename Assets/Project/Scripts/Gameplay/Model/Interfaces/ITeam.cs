@@ -5,28 +5,28 @@
     using System.Collections.Generic;
     using UniRx;
 
-    public static class ITeams
+    public static class ITeam
     {
 
-        public interface ISetter
+        public interface IEnemySetter
         {
             void AddUnit(Unit unit);
             void ClearUnits();
             void SetStatus(TeamStatus playerStatus);
         }
 
-        public interface IGetter
+        public interface IEnemyGetter
         {
             IReadOnlyReactiveProperty<List<Unit>> GetUnits();
             IReadOnlyReactiveProperty<TeamStatus> GetStatus();
         }
 
-        public interface PlayerSetter : ISetter
+        public interface PlayerSetter : IEnemySetter
         {
             void AddScore(int scoreToAdd);
         }
 
-        public interface IPlayerGetter : IGetter 
+        public interface IPlayerGetter : IEnemyGetter 
         {
             IReadOnlyReactiveProperty<int> GetScore();
         }

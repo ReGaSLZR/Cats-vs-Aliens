@@ -43,5 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b11c6607182a1384ea6e5f483fd58ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabTile: {fileID: 5086538599046996704, guid: 2c9c3756c7f8ca34aa8d8f601c5660a4,
+  prefabLevelTile: {fileID: 5086538599046996704, guid: 2c9c3756c7f8ca34aa8d8f601c5660a4,
     type: 3}
+  prefabUnitTilePlayer: {fileID: 4724353236184777625, guid: 7aa6429a811f2614d914ee7b1ea5f835,
+    type: 3}
+  prefabUnitTileEnemy: {fileID: 8283630478704479139, guid: f560eb5f8cbf0194fb7f1c6878a438dd,
+    type: 3}
+  parentLevelTiles: {fileID: 0}
+  parentUnitTiles: {fileID: 0}

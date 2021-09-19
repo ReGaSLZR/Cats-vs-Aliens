@@ -1,6 +1,6 @@
 ﻿namespace ReGaSLZR.Gameplay.Model
 {
-    using Enum;
+
     using Util;
 
     using NaughtyAttributes;
@@ -21,22 +21,34 @@
         private Texture icon;
 
         [SerializeField]
-        private GameObject prefab;
+        private UnitHolder prefab;
 
         [Header("Stats")]
 
         [SerializeField]
+        [Range(0, 50)]
         private int statMaxHp;
         [SerializeField]
+        [Range(0, 10)]
         private int statSpeed;
         [SerializeField]
+        [Range(1, 10)]
         private int statAttack;
+
+        [Header("Per Turn Stats")]
+
+        [SerializeField]
+        [Range(0, 5)]
+        private int movementPerTurn;
+        [SerializeField]
+        [Range(0, 5)]
+        private int skillUsesPerTurn;
 
         #endregion
 
         #region Private Fields
 
-        private readonly ReactiveProperty<int> rCurrentHp 
+        private readonly ReactiveProperty<int> rCurrentHp
             = new ReactiveProperty<int>();
 
         #endregion
@@ -46,28 +58,26 @@
         public string DisplayName => displayName;
         public Texture Icon => icon;
 
+        public UnitHolder Prefab {
+                get {
+                    prefab.SetUpUnit(this);
+                    return prefab;
+                }
+            }
+
         public int StatMaxHp => statMaxHp;
 
         public int StatSpeed => statSpeed;
 
         public int StatAttack => statAttack;
 
-        public Team Team;
-
         #endregion
 
         #region Class Implementation
 
-        public void Init(Team team)
+        public void Init()
         {
             rCurrentHp.Value = StatMaxHp;
-            Team = team;
-        }
-
-        public void Spawn(Vector2 position, Transform parent)
-        {
-            var spawn = Instantiate(prefab, parent);
-            spawn.transform.position = new Vector3(position.x, position.y, 0);
         }
 
         public void Heal(int healValue)

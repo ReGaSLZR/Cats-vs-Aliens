@@ -1,6 +1,6 @@
 ﻿namespace ReGaSLZR.Gameplay.Presenter.Movement
 {
-    using Base;
+
     using Enum;
     using Model;
 
@@ -9,20 +9,13 @@
     using UniRx.Triggers;
     using Zenject;
     
-    public class PlayerMovement : BaseReactiveMonoBehaviour
+    public class PlayerMovement : BaseMovement
     {
-
-        #region Inspector Fields
-
-        [SerializeField]
-        private Tile currentTile;
-
-        #endregion
 
         #region Private Fields
 
         [Inject]
-        private readonly ITiles.IGetter iTilesGetter;
+        private readonly ITile.IGetter iTilesGetter;
 
         #endregion
 
@@ -48,14 +41,8 @@
                 .Select(_ => iTilesGetter.GetTile(
                     currentTile, direction))
                 .Where(destination => (destination != null))
-                .Subscribe(UpdatePosition)
+                .Subscribe(SetPosition)
                 .AddTo(disposablesBasic);
-        }
-
-        private void UpdatePosition(Tile destination)
-        {
-            transform.position = destination.Position;
-            currentTile = destination;
         }
 
         #endregion

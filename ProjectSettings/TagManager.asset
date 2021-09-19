@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Tile
+    uniqueID: 229394359
+    locked: 0
+  - name: SpawnMarker
+    uniqueID: 1766318319
+    locked: 0
+  - name: Unit
+    uniqueID: 2622695419
+    locked: 0

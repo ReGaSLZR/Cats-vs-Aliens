@@ -2,16 +2,31 @@
 {
 
 	using Base;
+
+	using NaughtyAttributes;
     using UnityEngine;
 	using Zenject;
 
+	[RequireComponent(typeof(SpriteRenderer))]
     public class Tile : BaseReactiveMonoBehaviour
     {
+
+		public bool isOccupied;
 
 		#region Inspector Fields
 
 		[SerializeField]
         private Vector3 gridSize = new Vector3(1,1,1);
+
+		[SerializeField]
+		[Required]
+		private SpriteRenderer spriteRenderer;
+
+		[SerializeField]
+		private Color spriteColor;
+
+		[SerializeField]
+		private bool showInRuntime;
 
 		#endregion
 
@@ -26,7 +41,7 @@
         #region Private Fields
 
         [Inject]
-		private readonly ITiles.ISetter iTilesSetter;
+		private readonly ITile.ISetter iTilesSetter;
 
         #endregion
 
@@ -36,17 +51,26 @@
 		{
 			if (!Application.isPlaying && transform.hasChanged)
 			{
+				spriteRenderer.color = spriteColor;
 				SnapToGrid();
 			}
 		}
 
-		#endregion
+        private void Start()
+        {
+			spriteRenderer.enabled = showInRuntime;
+		}
 
-		#region Class Overrides
+        #endregion
 
-		protected override void RegisterObservables()
+        #region Class Overrides
+
+        protected override void RegisterObservables()
 		{
-			iTilesSetter.AddTile(this);
+			if (showInRuntime)
+			{ 
+				iTilesSetter.AddTile(this);
+			}
 		}
 
 
@@ -54,19 +78,16 @@
 
 		#region Class Implementation
 
-		private void SnapToGrid()
+		protected virtual void SnapToGrid()
 		{
-			var grid = gridSize;
 			var position = new Vector3(
-				Mathf.Round(transform.position.x / grid.x) * grid.x,
-				Mathf.Round(transform.position.y / grid.y) * grid.y,
-				Mathf.Round(transform.position.z / grid.z) * grid.z
+				Mathf.Round(transform.position.x / gridSize.x) * gridSize.x,
+				Mathf.Round(transform.position.y / gridSize.y) * gridSize.y,
+				Mathf.Round(transform.position.z / gridSize.z) * gridSize.z
 			);
 
 			transform.position = position;
-
-			gameObject.name = "Tile " + position.x + ":"
-				+ position.y;
+			gameObject.name = "Tile " + position.x + ":" + position.y;
 		}
 
         #endregion
