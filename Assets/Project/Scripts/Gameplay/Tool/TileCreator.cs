@@ -25,7 +25,6 @@
             }
 
             var tile = Instantiate(prefabTile, gameObject.transform);
-            tile.name = "Tile #" + (gameObject.transform.childCount);
 
 #if UNITY_EDITOR
             UnityEditor.Selection.activeGameObject = tile.gameObject;

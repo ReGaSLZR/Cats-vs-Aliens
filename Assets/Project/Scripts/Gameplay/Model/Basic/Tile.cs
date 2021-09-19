@@ -32,12 +32,6 @@
 
         #region Unity Callbacks
 
-        private void Start()
-        {
-			gameObject.name = "Tile " + transform.position.x + ":"
-				+ transform.position.y;
-        }
-
         private void OnDrawGizmos()
 		{
 			if (!Application.isPlaying && transform.hasChanged)
@@ -70,6 +64,9 @@
 			);
 
 			transform.position = position;
+
+			gameObject.name = "Tile " + position.x + ":"
+				+ position.y;
 		}
 
         #endregion
