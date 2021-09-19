@@ -8,6 +8,7 @@
     using UniRx;
     using UnityEngine;
     using Zenject;
+    using System.Collections;
 
     [RequireComponent(typeof(CinemachineVirtualCameraBase))]
     public class CameraFocus : BaseReactiveMonoBehaviour
@@ -17,6 +18,9 @@
         [Required]
         private CinemachineVirtualCameraBase cam;
 
+        [SerializeField]
+        private float delayOnChangeFocus = 1f;
+
         [Inject]
         private readonly ISequence.IGetter iSequenceGetter;
 
@@ -25,10 +29,17 @@
             iSequenceGetter.GetSequencedUnit()
                 .Where(unitHolder => (unitHolder != null))
                 .Subscribe(unitHolder => {
-                    cam.Follow = unitHolder.transform;
-                    cam.LookAt = unitHolder.transform;
+                    StopAllCoroutines();
+                    StartCoroutine(CorChangeFocus(unitHolder.transform));
                 })
                 .AddTo(disposablesBasic);
+        }
+
+        private IEnumerator CorChangeFocus(Transform focus)
+        {
+            yield return new WaitForSeconds(delayOnChangeFocus);
+            cam.Follow = focus;
+            cam.LookAt = focus;
         }
 
     }
