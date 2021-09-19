@@ -1704,8 +1704,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: -7.4115393e-22, y: 0.00000047752036, z: 3.5391608e-28, w: 1}
+  m_LocalPosition: {x: -0.000009550407, y: -1.4823078e-20, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 133000978}
@@ -3430,7 +3430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 2057961551}
   unitHighlighter: {fileID: 1946491197}
-  delayOnChangeFocus: 1
+  delayOnChangeFocus: 0.5
 --- !u!212 &1946491197
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3851,8 +3851,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057961549}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: -7.4115393e-22, y: 0.00000047752036, z: 3.5391608e-28, w: 1}
+  m_LocalPosition: {x: -0.000009550407, y: -1.4823078e-20, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2058691411}
@@ -3907,9 +3907,9 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 3
+  m_YDamping: 3
+  m_ZDamping: 3
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
   m_ScreenY: 0.5
