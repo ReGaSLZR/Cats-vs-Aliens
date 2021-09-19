@@ -116,8 +116,7 @@
 
                 var spawn = Instantiate(unit, 
                     (team == Team.Player) ? parentUnitPlayer : parentUnitEnemies);
-                spawn.SetBGColor(iThemeColors.GetBGColor(team));
-                spawn.Data.Init();
+                spawn.Init(iThemeColors.GetBGColor(team));
                 iSequenceSetter.AddUnitForSequence(spawn);
                 SetUpSpawnedUnitMovement(spawn, team, tile);
 

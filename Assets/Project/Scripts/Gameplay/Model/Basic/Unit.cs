@@ -1,11 +1,15 @@
 ﻿namespace ReGaSLZR.Gameplay.Model
 {
 
+    using Base;
+
     using NaughtyAttributes;
+    using TMPro;
     using UnityEngine;
+    using UnityEngine.UI;
     using UniRx;
 
-    public class Unit : MonoBehaviour
+    public class Unit : BaseReactiveMonoBehaviour
     {
 
         #region Inspector Fields
@@ -21,12 +25,23 @@
         [Required]
         private SpriteRenderer visual;
 
-        #endregion
+        [Header("UI")]
 
-        #region Private Fields
+        [SerializeField]
+        [Required]
+        private TextMeshProUGUI textDisplayName;
 
-        private readonly ReactiveProperty<bool> rIsFocused =
-            new ReactiveProperty<bool>();
+        [SerializeField]
+        [Required]
+        private Slider sliderHp;
+
+        [SerializeField]
+        [Required]
+        private Slider sliderAttack;
+
+        [SerializeField]
+        [Required]
+        private Slider sliderSpeed;
 
         #endregion
 
@@ -38,14 +53,22 @@
 
         #region Class Implementation
 
-        public void SetBGColor(Color colorBG)
+        public void Init(Color colorBG)
         {
             background.color = colorBG;
-        }
+            data.Init();
 
-        public void SetFocus(bool isFocused)
-        {
-            rIsFocused.Value = isFocused;
+            textDisplayName.text = data.DisplayName;
+            sliderHp.maxValue = UnitData.MAX_HP;
+            sliderAttack.maxValue = UnitData.MAX_ATTACK;
+            sliderSpeed.maxValue = UnitData.MAX_SPEED;
+
+            sliderAttack.value = data.StatAttack;
+            sliderSpeed.value = data.StatSpeed;
+
+            data.GetCurrentHp()
+                .Subscribe(hp => sliderHp.value = hp)
+                .AddTo(disposablesTerminal);
         }
 
         #endregion

@@ -3,7 +3,6 @@
 
     using Util;
 
-    using NaughtyAttributes;
     using UniRx;
     using UnityEngine;
 
@@ -11,6 +10,7 @@
     public class UnitData
     {
 
+        public const int MAX_ATTACK = 10;
         public const int MAX_SPEED = 10;
         public const int MAX_HP = 10;
 
@@ -25,10 +25,10 @@
         [Range(0, MAX_HP)]
         private int statMaxHp;
         [SerializeField]
-        [Range(0, MAX_SPEED)]
+        [Range(1, MAX_SPEED)]
         private int statSpeed;
         [SerializeField]
-        [Range(1, 10)]
+        [Range(1, MAX_ATTACK)]
         private int statAttack;
 
         [Header("Per Turn Stats")]
