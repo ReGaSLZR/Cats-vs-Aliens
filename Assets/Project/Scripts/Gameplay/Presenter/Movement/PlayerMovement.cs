@@ -17,6 +17,8 @@
         [Inject]
         private readonly ITile.IGetter iTilesGetter;
 
+        private bool isMovementAllowed;
+
         #endregion
 
         #region Class Overrides
@@ -27,6 +29,8 @@
             RegisterMovement(MoveDirection.Down);
             RegisterMovement(MoveDirection.Left);
             RegisterMovement(MoveDirection.Right);
+
+            isMovementAllowed = true;
         }
 
         #endregion
@@ -36,12 +40,14 @@
         private void RegisterMovement(MoveDirection direction)
         {
             this.UpdateAsObservable()
-                .Where(_ => Input.GetButtonUp(direction.ToString()))
+                .Where(_ => isMovementAllowed)
+                .Where(_ => Input.GetButtonDown(direction.ToString()))
                 .Select(_ => iTilesGetter.GetTile(
                     currentTile, direction))
                 .Where(destination => (destination != null))
                 .Subscribe(destination =>
                 {
+                    isMovementAllowed = false;
                     SetPosition(destination);
                     FinishMove();
                 })
