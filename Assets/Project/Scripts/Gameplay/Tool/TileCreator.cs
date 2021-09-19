@@ -2,7 +2,7 @@
 {
     using Enum;
     using Model;
-    using View.Spawner;
+    using Presenter.Spawner;
     using Util;
 
     using NaughtyAttributes;

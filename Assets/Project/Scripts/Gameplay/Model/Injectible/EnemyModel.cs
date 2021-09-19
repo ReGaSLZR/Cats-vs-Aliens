@@ -30,6 +30,9 @@
 
         protected readonly ReactiveProperty<List<Unit>> rUnits = new ReactiveProperty<List<Unit>>();
 
+        protected readonly ReactiveProperty<bool> rIsInitFinished =
+            new ReactiveProperty<bool>();
+
         #endregion
 
         #region MonoInstaller Implementations
@@ -57,7 +60,8 @@
 
         protected virtual void InitValues()
         {
-            rStatus.Value = TeamStatus.InPlay;
+            rIsInitFinished.Value = false;
+            rStatus.Value = TeamStatus.NotReady;
             rUnits.Value = new List<Unit>();
 
             ClearUnits();
@@ -66,6 +70,7 @@
                 AddUnit(unit);
             }
 
+            rIsInitFinished.Value = true;
         }
 
         private void OnUnitDeath()
@@ -76,7 +81,7 @@
 
             foreach (var unit in units)
             {
-                if (unit != null && unit.GetCurrentHp().Value <= 0)
+                if (unit != null && unit.Data.GetCurrentHp().Value <= 0)
                 {
                     deadUnitsCount++;
                 }
@@ -100,15 +105,14 @@
                 return;
             }
 
-            if (unit.StatMaxHp <= 0)
+            if (unit.Data.StatMaxHp <= 0)
             {
                 LogUtil.PrintError(GetType(), $"AddUnit(): unit " +
-                    $"{unit.DisplayName} has invalid Max HP! Skipping...");
+                    $"{unit.Data.DisplayName} has invalid Max HP! Skipping...");
                 return;
             }
 
-            unit.Init();
-            unit.GetCurrentHp()
+            unit.Data.GetCurrentHp()
                 .Where(hp => hp <= 0)
                 .Subscribe(_ => OnUnitDeath())
                 .AddTo(disposables);
@@ -139,6 +143,11 @@
         public IReadOnlyReactiveProperty<TeamStatus> GetStatus()
         {
             return rStatus;
+        }
+
+        public IReadOnlyReactiveProperty<bool> GetIsInitFinished()
+        {
+            return rIsInitFinished;
         }
 
         #endregion

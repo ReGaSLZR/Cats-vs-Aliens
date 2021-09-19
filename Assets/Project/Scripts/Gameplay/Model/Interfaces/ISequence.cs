@@ -1,0 +1,23 @@
+﻿namespace ReGaSLZR.Gameplay.Model
+{
+    using System.Collections.Generic;
+    using UniRx;
+
+    public static class ISequence 
+    {
+
+        public interface ISetter
+        {
+            void AddUnitForSequence(Unit unitHolder);
+            void OrganizeSequence();
+            void FinishSequence(Unit unitHolder);
+        }
+
+        public interface IGetter
+        {
+            IReadOnlyReactiveProperty<Unit> GetSequencedUnit();
+        }
+
+    }
+
+}

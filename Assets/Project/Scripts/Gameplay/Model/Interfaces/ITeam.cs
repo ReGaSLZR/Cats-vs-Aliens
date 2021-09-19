@@ -19,9 +19,11 @@
         {
             IReadOnlyReactiveProperty<List<Unit>> GetUnits();
             IReadOnlyReactiveProperty<TeamStatus> GetStatus();
+
+            IReadOnlyReactiveProperty<bool> GetIsInitFinished();
         }
 
-        public interface PlayerSetter : IEnemySetter
+        public interface IPlayerSetter : IEnemySetter
         {
             void AddScore(int scoreToAdd);
         }

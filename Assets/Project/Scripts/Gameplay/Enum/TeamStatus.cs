@@ -3,7 +3,8 @@
 
     public enum TeamStatus
     {
-        InPlay = 0,
+        NotReady = 0,
+        InPlay = 1,
         WipedOut,
     }
 

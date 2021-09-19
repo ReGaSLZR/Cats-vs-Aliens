@@ -3,9 +3,10 @@
     public enum LevelState
     {
 
-        Paused = 0,
+        NotStarted = 0,
         InPlay = 1,
-        Ended = 2,
+        Paused = 2,
+        Ended = 3,
 
     }
 

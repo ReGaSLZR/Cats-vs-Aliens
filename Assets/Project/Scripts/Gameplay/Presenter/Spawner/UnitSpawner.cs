@@ -1,4 +1,4 @@
-﻿namespace ReGaSLZR.Gameplay.View.Spawner
+﻿namespace ReGaSLZR.Gameplay.Presenter.Spawner
 {
     using Base;
     using Enum;
@@ -40,10 +40,16 @@
         #region Private Fields
 
         [Inject]
-        private readonly ITeam.IEnemyGetter iEnemyTeam;
+        private readonly ITeam.IEnemyGetter iEnemyGetter;
         
         [Inject]
-        private readonly ITeam.IPlayerGetter iPlayerTeam;
+        private readonly ITeam.IPlayerGetter iPlayerGetter;
+
+        [Inject]
+        private readonly ITeam.IEnemySetter iEnemySetter;
+
+        [Inject]
+        private readonly ITeam.IPlayerSetter iPlayerSetter;
 
         [Inject]
         private readonly Base.IInstantiator iInstantiator;
@@ -52,10 +58,10 @@
         private readonly ThemeColors iThemeColors;
 
         [Inject]
-        private readonly ITile.IGetter iTileGetter;
+        private readonly ITile.IGetter iTile;
 
         [Inject]
-        private readonly ICamera.ISetter iCameraSetter;
+        private readonly ISequence.ISetter iSequenceSetter;
 
         #endregion
 
@@ -63,12 +69,16 @@
 
         protected override void RegisterObservables()
         {
-            iEnemyTeam.GetUnits()
+            iEnemyGetter.GetIsInitFinished()
+                .Where(isFinished => isFinished)
+                .Select(_ => iEnemyGetter.GetUnits().Value)
                 .Subscribe(units => OnReceiveUnits(
                     Team.Enemy, units))
                 .AddTo(disposablesBasic);
 
-            iPlayerTeam.GetUnits()
+            iPlayerGetter.GetIsInitFinished()
+                .Where(isFinished => isFinished)
+                .Select(_ => iPlayerGetter.GetUnits().Value)
                 .Subscribe(units => OnReceiveUnits(
                     Team.Player, units))
                 .AddTo(disposablesBasic);
@@ -104,10 +114,12 @@
                     tile = list[index];
                 }
                 
-                var spawn = Instantiate(unit.Prefab, (team == Team.Player) ? parentUnitPlayer : parentUnitEnemies);
+                var spawn = Instantiate(unit, 
+                    (team == Team.Player) ? parentUnitPlayer : parentUnitEnemies);
                 spawn.SetBGColor(iThemeColors.GetBGColor(team));
+                spawn.Data.Init();
+                iSequenceSetter.AddUnitForSequence(spawn);
                 SetUpSpawnedUnitMovement(spawn, team, tile);
-                iCameraSetter.SetFocusTarget(spawn.transform);
 
                 index++;
 
@@ -120,9 +132,17 @@
             }
 
             LogUtil.PrintInfo(GetType(), $"OnReceiveUnits(): done with {team}");
+            if (team == Team.Enemy)
+            {
+                iEnemySetter.SetStatus(TeamStatus.InPlay);
+            }
+            else 
+            {
+                iPlayerSetter.SetStatus(TeamStatus.InPlay);
+            }
         }
 
-        private void SetUpSpawnedUnitMovement(UnitHolder spawn, Team team, Tile spawnTile)
+        private void SetUpSpawnedUnitMovement(Model.Unit spawn, Team team, Tile spawnTile)
         {
             BaseMovement movement = null;
             if (team == Team.Player)
@@ -135,7 +155,7 @@
             }
 
             iInstantiator.InjectPrefab(spawn.gameObject);
-            movement.SetPosition(iTileGetter.GetTileAt(spawnTile.Position));
+            movement.SetPosition(iTile.GetTileAt(spawnTile.Position));
         }
 
         public void AddSpawnTile(Team team, Tile tile)

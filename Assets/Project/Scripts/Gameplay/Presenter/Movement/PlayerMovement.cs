@@ -21,7 +21,7 @@
 
         #region Class Overrides
 
-        protected override void RegisterObservables()
+        protected override void OnMove()
         {
             RegisterMovement(MoveDirection.Up);
             RegisterMovement(MoveDirection.Down);
@@ -36,12 +36,15 @@
         private void RegisterMovement(MoveDirection direction)
         {
             this.UpdateAsObservable()
-                .Where(_ => Input.GetButtonDown(
-                    direction.ToString()))
+                .Where(_ => Input.GetButtonUp(direction.ToString()))
                 .Select(_ => iTilesGetter.GetTile(
                     currentTile, direction))
                 .Where(destination => (destination != null))
-                .Subscribe(SetPosition)
+                .Subscribe(destination =>
+                {
+                    SetPosition(destination);
+                    FinishMove();
+                })
                 .AddTo(disposablesBasic);
         }
 

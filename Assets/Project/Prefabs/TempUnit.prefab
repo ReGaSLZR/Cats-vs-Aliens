@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 367357226570033414}
-  - component: {fileID: 852155693}
+  - component: {fileID: 8389482763730833147}
   m_Layer: 0
   m_Name: TempUnit
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &852155693
+--- !u!114 &8389482763730833147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,12 +42,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 367357226570033408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6926688f135be842935d39d80ef9789, type: 3}
+  m_Script: {fileID: 11500000, guid: b7105bcf0031717468077c5372fcc949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    displayName: Temp Unit
+    icon: {fileID: 2800000, guid: bbba5d3ff42188e49b06569389384dd5, type: 3}
+    statMaxHp: 9
+    statSpeed: 7
+    statAttack: 3
+    movementPerTurn: 1
+    skillUsesPerTurn: 1
   background: {fileID: 3263931844073460442}
   visual: {fileID: 6244116092048286558}
-  unit: {fileID: 0}
 --- !u!1 &5027535867082140241
 GameObject:
   m_ObjectHideFlags: 0

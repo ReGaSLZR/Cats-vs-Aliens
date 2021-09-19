@@ -10,7 +10,7 @@
     [CreateAssetMenu(fileName = "Player Model", 
         menuName = "Project/Create Player Injectible Model")]
     public class PlayerModel : EnemyModel, 
-        ITeam.IPlayerGetter, ITeam.PlayerSetter
+        ITeam.IPlayerGetter, ITeam.IPlayerSetter
     {
 
         #region Private Fields
@@ -36,7 +36,7 @@
             InitValues();
 
             Container.Bind<ITeam.IPlayerGetter>().FromInstance(this);
-            Container.Bind<ITeam.PlayerSetter>().FromInstance(this);
+            Container.Bind<ITeam.IPlayerSetter>().FromInstance(this);
         }
 
         #endregion

@@ -1,114 +1,54 @@
 ﻿namespace ReGaSLZR.Gameplay.Model
 {
 
-    using Util;
-
     using NaughtyAttributes;
-    using UniRx;
     using UnityEngine;
+    using UniRx;
 
-    [CreateAssetMenu(fileName = "Unit", menuName = "Project/Create New Unit")]
-    public class Unit : ScriptableObject
+    public class Unit : MonoBehaviour
     {
 
         #region Inspector Fields
 
         [SerializeField]
-        private string displayName;
-
-        [ShowAssetPreview]
-        [SerializeField]
-        private Texture icon;
+        private UnitData data;
 
         [SerializeField]
-        private UnitHolder prefab;
-
-        [Header("Stats")]
-
-        [SerializeField]
-        [Range(0, 50)]
-        private int statMaxHp;
-        [SerializeField]
-        [Range(0, 10)]
-        private int statSpeed;
-        [SerializeField]
-        [Range(1, 10)]
-        private int statAttack;
-
-        [Header("Per Turn Stats")]
+        [Required]
+        private SpriteRenderer background;
 
         [SerializeField]
-        [Range(0, 5)]
-        private int movementPerTurn;
-        [SerializeField]
-        [Range(0, 5)]
-        private int skillUsesPerTurn;
+        [Required]
+        private SpriteRenderer visual;
 
         #endregion
 
         #region Private Fields
 
-        private readonly ReactiveProperty<int> rCurrentHp
-            = new ReactiveProperty<int>();
+        private readonly ReactiveProperty<bool> rIsFocused =
+            new ReactiveProperty<bool>();
 
         #endregion
 
-        #region Accessors
+        #region Accessor
 
-        public string DisplayName => displayName;
-        public Texture Icon => icon;
-
-        public UnitHolder Prefab {
-                get {
-                    prefab.SetUpUnit(this);
-                    return prefab;
-                }
-            }
-
-        public int StatMaxHp => statMaxHp;
-
-        public int StatSpeed => statSpeed;
-
-        public int StatAttack => statAttack;
+        public UnitData Data => data;
 
         #endregion
 
         #region Class Implementation
 
-        public void Init()
+        public void SetBGColor(Color colorBG)
         {
-            rCurrentHp.Value = StatMaxHp;
+            background.color = colorBG;
         }
 
-        public void Heal(int healValue)
+        public void SetFocus(bool isFocused)
         {
-            if (healValue < 0)
-            {
-                LogUtil.PrintWarning(GetType(), $"Heal(): healValue of {healValue} is not accepted.");
-                return;
-            }
-
-            rCurrentHp.Value = Mathf.Min(statMaxHp, rCurrentHp.Value + healValue);
-        }
-
-        public void Damage(int damageValue)
-        {
-            if (damageValue < 0)
-            {
-                LogUtil.PrintWarning(GetType(), $"Damage(): damageValue of {damageValue} is not accepted.");
-                return;
-            }
-
-            rCurrentHp.Value = Mathf.Max(0, rCurrentHp.Value - damageValue);
-        }
-
-        public IReadOnlyReactiveProperty<int> GetCurrentHp()
-        {
-            return rCurrentHp;
+            rIsFocused.Value = isFocused;
         }
 
         #endregion
-
     }
 
 }
