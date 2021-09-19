@@ -59,6 +59,7 @@
             data.Init();
 
             textDisplayName.text = data.DisplayName;
+            visual.sprite = data.Icon;
             sliderHp.maxValue = UnitData.MAX_HP;
             sliderAttack.maxValue = UnitData.MAX_ATTACK;
             sliderSpeed.maxValue = UnitData.MAX_SPEED;

@@ -3,6 +3,7 @@
 
     using Util;
 
+    using NaughtyAttributes;
     using UniRx;
     using UnityEngine;
 
@@ -18,6 +19,11 @@
 
         [SerializeField]
         private string displayName;
+
+        [SerializeField]
+        [Required]
+        [ShowAssetPreview]
+        private Sprite icon;
 
         [Header("Stats")]
 
@@ -48,6 +54,7 @@
         #region Accessors
 
         public string DisplayName => displayName;
+        public Sprite Icon => icon;
 
         public int StatMaxHp => statMaxHp;
 
