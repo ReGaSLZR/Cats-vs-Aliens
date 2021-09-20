@@ -18,6 +18,9 @@
         [Inject]
         private readonly ITile.IGetter iTilesGetter;
 
+        [Inject]
+        private readonly ILevel.IGetter iLevelGetter;
+
         private bool isMovementAllowed;
 
         #endregion
@@ -42,6 +45,7 @@
         {
             this.UpdateAsObservable()
                 .Where(_ => isMovementAllowed)
+                //.Where(_ => iLevelGetter.GetState().Value == LevelState.InPlay)
                 .Where(_ => Input.GetButtonDown(direction.ToString()))
                 .Select(_ => iTilesGetter.GetTile(
                     unitController.Unit.currentTile, direction))
