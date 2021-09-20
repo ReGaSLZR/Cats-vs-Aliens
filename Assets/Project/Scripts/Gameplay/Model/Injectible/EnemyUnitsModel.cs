@@ -73,26 +73,6 @@
             rIsInitFinished.Value = true;
         }
 
-        private void OnUnitDeath()
-        {
-            LogUtil.PrintInfo(GetType(), "OnUnitDeath() called.");
-            var units = rUnits.Value;
-            var deadUnitsCount = 0;
-
-            foreach (var unit in units)
-            {
-                if (unit != null && unit.Data.GetCurrentHp().Value <= 0)
-                {
-                    deadUnitsCount++;
-                }
-            }
-
-            if (deadUnitsCount == units.Count)
-            {
-                rStatus.Value = TeamStatus.WipedOut;
-            }
-        }
-
         #endregion
         
         #region Setter Implementation
@@ -111,11 +91,6 @@
                     $"{unit.Data.DisplayName} has invalid Max HP! Skipping...");
                 return;
             }
-
-            unit.Data.GetCurrentHp()
-                .Where(hp => hp <= 0)
-                .Subscribe(_ => OnUnitDeath())
-                .AddTo(disposables);
 
             rUnits.Value.Add(unit);
         }

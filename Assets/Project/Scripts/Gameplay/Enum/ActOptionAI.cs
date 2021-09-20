@@ -5,7 +5,7 @@
     {
         
         NoAction = 0,
-        AttackIsHasTarget = 1,
+        AttackIfHasTarget = 1,
 
     }
 

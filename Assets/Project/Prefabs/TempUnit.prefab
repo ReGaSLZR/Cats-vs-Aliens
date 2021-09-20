@@ -162,11 +162,10 @@ MonoBehaviour:
     statMaxHp: 5
     statSpeed: 7
     statAttack: 3
-    movementPerTurn: 1
-    skillUsesPerTurn: 1
     aiMove: 0
     aIMoveDelay: 1
     aiActOption: 0
+    aIActDelay: 0.25
   background: {fileID: 2460304204480562019}
   visual: {fileID: 3663026926298343414}
   textDisplayName: {fileID: 6476334862367617516}

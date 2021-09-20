@@ -72,6 +72,11 @@
 
         private void InitTerminalObservers()
         {
+            unit.Data.GetCurrentHp()
+                .Where(hp => hp <= 0)
+                .Subscribe(_ => Destroy(gameObject, 0.25f))
+                .AddTo(disposablesTerminal);
+
             rIsActive.Subscribe(OnIsActive)
                     .AddTo(disposablesTerminal);
 
@@ -100,6 +105,7 @@
             {
                 rIsMoveAllowed.Value = true;
                 rIsActionAllowed.Value = true;
+                //rIsActionAllowed.Value = (unit.Data.Team == Enum.Team.Player);
             }
         }
 
@@ -130,6 +136,11 @@
         public void SetIsMoveFinished()
         {
             rIsMoveAllowed.Value = false;
+
+            //if ((unit.Data.Team != Enum.Team.Player))
+            //{
+            //    rIsActionAllowed.Value = true;
+            //}
         }
 
         public void SetIsActionFinished()

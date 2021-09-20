@@ -16,6 +16,8 @@
         public interface IGetter
         {
             IReadOnlyReactiveProperty<Unit> GetActiveUnit();
+            Unit GetUnitAtTile(Tile tile);
+            List<Unit> GetUnits();
         }
 
     }

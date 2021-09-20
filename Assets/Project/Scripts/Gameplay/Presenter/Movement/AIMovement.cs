@@ -34,7 +34,6 @@
                         break;
                     }
             }
-            StartCoroutine(CorMoveStationary());
         }
 
         #endregion
@@ -46,12 +45,14 @@
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
             SetPosition(iTileGetter.GetRandomTile(unitController.Unit.currentTile));
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
+            LogUtil.PrintInfo(GetType(), "CorMoveRandom()");
             FinishMove();
         }
 
         private IEnumerator CorMoveStationary()
         {
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
+            LogUtil.PrintInfo(GetType(), "CorMoveStationary()");
             FinishMove();
         }
 

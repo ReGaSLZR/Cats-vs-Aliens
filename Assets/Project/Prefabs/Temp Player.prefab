@@ -79,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8389482763730833147, guid: dfbfd68ecd5d5a9498b4716ca9bfeb11,
         type: 3}
+      propertyPath: data.statSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8389482763730833147, guid: dfbfd68ecd5d5a9498b4716ca9bfeb11,
+        type: 3}
       propertyPath: data.statAttack
       value: 4
       objectReference: {fileID: 0}

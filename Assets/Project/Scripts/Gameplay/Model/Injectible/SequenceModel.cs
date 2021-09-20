@@ -100,6 +100,30 @@
             return rActiveUnit;
         }
 
+        public Unit GetUnitAtTile(Tile tile)
+        {
+            if (tile == null)
+            {
+                return null;
+            }
+
+            foreach (var unit in sequencedUnits)
+            {
+                if (unit != null && unit.currentTile != null &&
+                    unit.currentTile.GetInstanceID() == tile.GetInstanceID())
+                {
+                    return unit;
+                }
+            }
+
+            return null;
+        }
+
+        public List<Unit> GetUnits()
+        {
+            return sequencedUnits;
+        }
+
         #endregion
 
     }

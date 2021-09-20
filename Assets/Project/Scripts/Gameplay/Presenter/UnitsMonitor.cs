@@ -9,11 +9,14 @@
     using UnityEngine;
     using Zenject;
 
-    public class TurnSequenceStarter : BaseReactiveMonoBehaviour
+    public class UnitsMonitor : BaseReactiveMonoBehaviour
     {
 
         [Inject]
         private readonly ISequence.ISetter iSequenceSetter;
+
+        [Inject]
+        private readonly ISequence.IGetter iSequenceGetter;
 
         [Inject]
         private readonly ITeam.IEnemyGetter iEnemyGetter;
@@ -56,9 +59,28 @@
 
             iSequenceSetter.OrganizeSequence();
             iLevelSetter.SetState(LevelState.InPlay);
-
-            Destroy(this);
         }
+
+        //private void OnUnitDeath()
+        //{
+        //    LogUtil.PrintInfo(GetType(), "OnUnitDeath() called.");
+        //    var units = rUnits.Value;
+        //    var deadUnitsCount = 0;
+
+        //    foreach (var unit in units)
+        //    {
+        //        if (unit != null && unit.Data.GetCurrentHp().Value <= 0)
+        //        {
+        //            deadUnitsCount++;
+        //        }
+        //    }
+
+        //    if (deadUnitsCount == units.Count)
+        //    {
+        //        rStatus.Value = TeamStatus.WipedOut;
+
+        //    }
+        //}
 
     }
 

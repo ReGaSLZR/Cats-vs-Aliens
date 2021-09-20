@@ -96,7 +96,8 @@
             var tiles = rTiles.Value;
             foreach (var tile in tiles)
             {
-                if (tile.Position.Equals(position) && (bypassOccupied || (!bypassOccupied && !tile.isOccupied)))
+                if (tile.Position.Equals(position) && 
+                    (bypassOccupied || (!bypassOccupied && !tile.isOccupied)))
                 {
                     return tile;
                 }
@@ -105,7 +106,7 @@
             return null;
         }
 
-        public Tile GetRandomTile(Tile origin)
+        public Tile GetRandomTile(Tile origin, bool preferredOccupied = false)
         {
             var triedDirections = new List<MoveDirection>();
             var directions = System.Enum.GetNames(typeof(MoveDirection));
@@ -115,14 +116,11 @@
                 var dir = directions[Random.Range(0, directions.Length)];
                 System.Enum.TryParse(dir, out MoveDirection moveDir);
 
-                LogUtil.PrintInfo(GetType(), $"GetRandomTile(): " +
-                    $"random direction: {moveDir}");
-
                 if (!triedDirections.Contains(moveDir))
                 {
                     triedDirections.Add(moveDir);
 
-                    var tile = GetTile(origin, moveDir);
+                    var tile = GetTile(origin, moveDir, preferredOccupied);
                     if (tile != null)
                     {
                         return tile;
@@ -140,13 +138,19 @@
                 return false;
             }
 
+            var tiles = GetTilesOnCrossRange(origin);
+            return tiles.Contains(target);
+        }
+
+        public List<Tile> GetTilesOnCrossRange(Tile origin)
+        {
             var tiles = new List<Tile>();
             tiles.Add(GetTile(origin, MoveDirection.Up, true));
             tiles.Add(GetTile(origin, MoveDirection.Down, true));
             tiles.Add(GetTile(origin, MoveDirection.Left, true));
             tiles.Add(GetTile(origin, MoveDirection.Right, true));
 
-            return tiles.Contains(target);
+            return tiles;
         }
 
         #endregion

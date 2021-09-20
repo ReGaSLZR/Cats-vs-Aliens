@@ -19,7 +19,6 @@
         {
             IReadOnlyReactiveProperty<List<Unit>> GetUnits();
             IReadOnlyReactiveProperty<TeamStatus> GetStatus();
-
             IReadOnlyReactiveProperty<bool> GetIsInitFinished();
         }
 

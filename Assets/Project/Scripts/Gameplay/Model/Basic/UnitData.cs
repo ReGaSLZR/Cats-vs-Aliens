@@ -38,15 +38,6 @@
         [Range(1, MAX_ATTACK)]
         private int statAttack;
 
-        [Header("Per Turn Stats")]
-
-        [SerializeField]
-        [Range(0, 5)]
-        private int movementPerTurn;
-        [SerializeField]
-        [Range(0, 5)]
-        private int skillUsesPerTurn;
-
         [Header("AI Settings")]
 
         [SerializeField]
@@ -57,6 +48,9 @@
 
         [SerializeField]
         private ActOptionAI aiActOption = ActOptionAI.NoAction;
+
+        [SerializeField]
+        private float aIActDelay;
 
         #endregion
 
@@ -78,9 +72,8 @@
 
         public MoveOptionAI AIMove => aiMove;
         public ActOptionAI AIActOption => aiActOption;
-
         public float AIMoveDelay => aIMoveDelay;
-
+        public float AIActDelay => aIActDelay;
         public Team Team => team;
 
         #endregion

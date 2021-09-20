@@ -6,9 +6,6 @@
 
     using System.Collections;
     using UniRx;
-    using UniRx.Triggers;
-
-    using UnityEngine;
     using Zenject;
 
     public class PlayerAction : BaseAction
