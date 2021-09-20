@@ -105,18 +105,18 @@
 
             foreach (var unit in units)
             {
-                while (tile == null)
-                {
-                    if (index >= list.Count)
-                    {
-                        LogUtil.PrintWarning(GetType(), $"OnReceiveUnits(): " +
-                            $"All spawner tiles are null for Team {team}");
-                        return;
-                    }
+                //while (tile == null)
+                //{
+                //    if (index >= list.Count)
+                //    {
+                //        LogUtil.PrintWarning(GetType(), $"OnReceiveUnits(): " +
+                //            $"All spawner tiles are null for Team {team}");
+                //        return;
+                //    }
 
-                    index++;
-                    tile = list[index];
-                }
+                //    index++;
+                //    tile = list[index];
+                //}
 
                 var spawn = Instantiate(unit, 
                     (team == Team.Player) ? parentUnitPlayer : parentUnitEnemies);
@@ -150,6 +150,8 @@
 
         private void SetUpSpawnedUnitAction(Model.Unit spawn, Team team)
         {
+            LogUtil.PrintInfo(GetType(), $"SetUpSpawnedUnit Action(): " +
+                $"{spawn.Data.DisplayName}");
             if (team == Team.Player)
             {
                 spawn.gameObject.AddComponent<PlayerAction>();
@@ -164,6 +166,8 @@
 
         private void SetUpSpawnedUnitMovement(Model.Unit spawn, Team team, Tile spawnTile)
         {
+            LogUtil.PrintInfo(GetType(), $"SetUpSpawnedUnit Movement(): " +
+                $"{spawn.Data.DisplayName} | spawnTile {spawnTile}");
             BaseMovement movement;
             if (team == Team.Player)
             {

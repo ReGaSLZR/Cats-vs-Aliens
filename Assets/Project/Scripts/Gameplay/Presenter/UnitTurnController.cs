@@ -96,7 +96,7 @@
                 .Where(hp => hp <= 0)
                 .Subscribe(_ =>
                 {
-                    unit.currentTile.IsOccupied = false;
+                    unit.currentTile.isOccupied = false;
                     iLevelSetter.SetLog($"<b><color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>" +
                         $"{Unit.Data.DisplayName} died!</color></b>");
                     Destroy(gameObject, 0.25f);

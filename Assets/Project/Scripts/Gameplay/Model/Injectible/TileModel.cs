@@ -62,6 +62,11 @@
 
         public Tile GetTile(Tile origin, MoveDirection direction, bool bypassOccupied = false)
         {
+            if (origin == null)
+            {
+                return null;
+            }
+
             var desiredPosition = origin.Position;
 
             switch (direction)

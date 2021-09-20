@@ -63,7 +63,7 @@
 
             foreach (var tile in tilesInRange)
             { 
-                if (tile != null && tile.IsOccupied)
+                if (tile != null && tile.isOccupied)
                 {
                     var unit = iSequenceGetter.GetUnitAtTile(tile);
                     if (unit != null && (unit.Data.Team == Team.Player)

@@ -3,6 +3,7 @@
 
     using Base;
     using Model;
+    using Util;
 
     using NaughtyAttributes;
     using UniRx;
@@ -76,6 +77,7 @@
         {
             if (tile == null)
             {
+                LogUtil.PrintWarning(GetType(), $"SetPosition(): tile is NULL!");
                 return;
             }
 

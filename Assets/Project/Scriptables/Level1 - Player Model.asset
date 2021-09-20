@@ -14,6 +14,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingUnits:
   - {fileID: 4155397474627687334, guid: a724e482aa08254408cfc4ba980e2fcf, type: 3}
-  - {fileID: 7610616957087760979, guid: d4d9ca83b51182e43a67158a1f456669, type: 3}
-  - {fileID: 8213928729802096218, guid: 708e05568a85dd9428925f22a6479dd2, type: 3}
-  - {fileID: 5894751810856664301, guid: ba9d0c20787d8474d947e137fce7c1ed, type: 3}
