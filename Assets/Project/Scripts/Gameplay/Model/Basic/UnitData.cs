@@ -1,6 +1,7 @@
 ﻿namespace ReGaSLZR.Gameplay.Model
 {
 
+    using Enum;
     using Util;
 
     using NaughtyAttributes;
@@ -46,6 +47,14 @@
         [Range(0, 5)]
         private int skillUsesPerTurn;
 
+        [Header("AI Settings")]
+
+        [SerializeField]
+        private MoveOptionAI aiMove = MoveOptionAI.Stationary;
+
+        [SerializeField]
+        private float aIMoveDelay;
+
         #endregion
 
         private readonly ReactiveProperty<int> rCurrentHp
@@ -61,6 +70,10 @@
         public int StatSpeed => statSpeed;
 
         public int StatAttack => statAttack;
+
+        public MoveOptionAI AIMove => aiMove;
+
+        public float AIMoveDelay => aIMoveDelay;
 
         #endregion
 

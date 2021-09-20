@@ -3,14 +3,13 @@
 
     using Base;
     using Model;
-    using Util;
 
-    using UniRx;
     using NaughtyAttributes;
+    using UniRx;
     using UnityEngine;
     using Zenject;
 
-    [RequireComponent(typeof(Model.Unit))]
+    [RequireComponent(typeof(UnitTurnController))]
     public abstract class BaseMovement : BaseReactiveMonoBehaviour
     {
 
@@ -21,17 +20,17 @@
 
         [SerializeField]
         [ReadOnly]
-        protected Model.Unit unit;
+        protected UnitTurnController unitController;
 
         #endregion
 
         #region Private Fields
 
         [Inject]
-        private ISequence.IGetter iSequenceGetter;
+        protected readonly ISequence.IGetter iSequenceGetter;
 
         [Inject]
-        private ISequence.ISetter iSequenceSetter;
+        protected readonly ISequence.ISetter iSequenceSetter;
 
         #endregion
 
@@ -41,20 +40,16 @@
 
         private void Awake()
         {
-            unit = GetComponent<Model.Unit>();
+            unitController = GetComponent<UnitTurnController>();
         }
-
-        #endregion
-
-        #region Class Overrides
 
         private void Start()
         {
-            iSequenceGetter.GetActiveUnit()
-                .Where(unit => (unit != null) &&
-                        (unit.GetInstanceID() == this.unit.GetInstanceID()))
+            unitController.GetIsActive()
+                .Where(isActive => isActive)
+                .Where(_ => !unitController.GetIsMoveFinished().Value)
                 .Subscribe(_ => OnMove())
-                .AddTo(disposablesBasic);
+                .AddTo(disposablesTerminal);
         }
 
         #endregion
@@ -63,7 +58,7 @@
 
         protected void FinishMove()
         {
-            iSequenceSetter.FinishSequence(unit);
+            unitController.SetIsMoveFinished();
         }
 
         public void SetPosition(Tile tile)

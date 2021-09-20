@@ -46,6 +46,7 @@
         private IEnumerator CorChangeFocus(Transform focus)
         {
             unitHighlighter.enabled = true;
+            unitHighlighter.transform.SetParent(focus);
             unitHighlighter.transform.position = focus.position;
 
             yield return new WaitForSeconds(delayOnChangeFocus);

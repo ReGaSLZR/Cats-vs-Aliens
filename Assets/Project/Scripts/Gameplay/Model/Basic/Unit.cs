@@ -17,6 +17,8 @@
         [SerializeField]
         private UnitData data;
 
+        [Space]
+
         [SerializeField]
         [Required]
         private SpriteRenderer background;

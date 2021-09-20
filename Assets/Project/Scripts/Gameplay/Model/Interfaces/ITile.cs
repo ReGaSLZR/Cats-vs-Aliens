@@ -23,6 +23,8 @@
             ///<returns>The tile at the direction. Value is NULL if given direction is a dead-end.</returns>
             Tile GetTile(Tile origin, MoveDirection direction);
             Tile GetTileAt(Vector3 position);
+
+            Tile GetRandomTile(Tile origin);
         }
 
     }

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Level1 - Player Model
   m_EditorClassIdentifier: 
   startingUnits:
-  - {fileID: 8389482763730833147, guid: dfbfd68ecd5d5a9498b4716ca9bfeb11, type: 3}
-  - {fileID: 8389482763730833147, guid: dfbfd68ecd5d5a9498b4716ca9bfeb11, type: 3}
+  - {fileID: 4277742932436484862, guid: 60951fdb2071136409bbe632632256a8, type: 3}
+  - {fileID: 4277742932436484862, guid: 60951fdb2071136409bbe632632256a8, type: 3}

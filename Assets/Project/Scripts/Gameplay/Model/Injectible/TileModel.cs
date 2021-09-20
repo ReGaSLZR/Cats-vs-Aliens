@@ -105,6 +105,34 @@
             return null;
         }
 
+        public Tile GetRandomTile(Tile origin)
+        {
+            var triedDirections = new List<MoveDirection>();
+            var directions = System.Enum.GetNames(typeof(MoveDirection));
+            
+            while(triedDirections.Count < directions.Length)
+            {
+                var dir = directions[Random.Range(0, directions.Length)];
+                System.Enum.TryParse(dir, out MoveDirection moveDir);
+
+                LogUtil.PrintInfo(GetType(), $"GetRandomTile(): " +
+                    $"random direction: {moveDir}");
+
+                if (!triedDirections.Contains(moveDir))
+                {
+                    triedDirections.Add(moveDir);
+
+                    var tile = GetTile(origin, moveDir);
+                    if (tile != null)
+                    {
+                        return tile;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         #endregion
 
     }
