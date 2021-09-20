@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Theme Color Model
   m_EditorClassIdentifier: 
   color:
-    playerUnitBG: {r: 0.504717, g: 0.5466374, b: 1, a: 1}
-    enemyUnitBG: {r: 0.990566, g: 0.3037113, b: 0.3090983, a: 1}
+    playerUnitBG: {r: 0.504717, g: 0.5466374, b: 1, a: 0.6509804}
+    enemyUnitBG: {r: 0.990566, g: 0.3037113, b: 0.3090983, a: 0.6509804}

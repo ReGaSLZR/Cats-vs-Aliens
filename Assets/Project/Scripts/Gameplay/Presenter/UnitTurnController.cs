@@ -15,7 +15,7 @@
     {
 
         [SerializeField]
-        [Required]
+        [ReadOnly]
         private Model.Unit unit;
 
         [SerializeField]
@@ -43,6 +43,11 @@
         public Model.Unit Unit => unit;
 
         #region Unity Callbacks
+
+        private void Awake()
+        {
+            unit = GetComponent<Model.Unit>();
+        }
 
         private void Start()
         {
