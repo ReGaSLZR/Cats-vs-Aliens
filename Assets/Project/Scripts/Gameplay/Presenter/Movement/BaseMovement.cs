@@ -29,6 +29,9 @@
         [Inject]
         protected readonly ISequence.ISetter iSequenceSetter;
 
+        [Inject]
+        private readonly ILevel.IGetter iLevelGettter;
+
         #endregion
 
         protected abstract void OnMove();
@@ -46,6 +49,11 @@
                 .Where(isActive => isActive)
                 .Where(_ => unitController.GetIsMoveAllowed().Value)
                 .Subscribe(_ => OnMove())
+                .AddTo(disposablesTerminal);
+
+            iLevelGettter.GetState()
+                .Where(state => state == Enum.LevelState.Ended)
+                .Subscribe(_ => Destroy(this))
                 .AddTo(disposablesTerminal);
         }
 

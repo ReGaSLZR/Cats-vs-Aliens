@@ -2,10 +2,12 @@
 {
 
     using Base;
+    using Model;
 
     using NaughtyAttributes;
     using UniRx;
     using UnityEngine;
+    using Zenject;
 
     [RequireComponent(typeof(Model.Unit))]
     [RequireComponent(typeof(UnitTurnController))]
@@ -15,6 +17,9 @@
         [SerializeField]
         [ReadOnly]
         protected UnitTurnController unitController;
+
+        [Inject]
+        private readonly ILevel.IGetter iLevelGettter;
 
         protected abstract void OnAct();
 
@@ -29,6 +34,11 @@
                 .Where(isActive => isActive)
                 .Where(_ => unitController.GetIsActionAllowed().Value)
                 .Subscribe(_ => OnAct())
+                .AddTo(disposablesTerminal);
+
+            iLevelGettter.GetState()
+                .Where(state => state == Enum.LevelState.Ended)
+                .Subscribe(_ => Destroy(this))
                 .AddTo(disposablesTerminal);
         }
 
