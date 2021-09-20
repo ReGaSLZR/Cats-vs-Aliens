@@ -10,7 +10,7 @@
 
     [CreateAssetMenu(fileName = "Enemy Model",
         menuName = "Project/Create Enemy Injectible Model")]
-    public class EnemyModel : ScriptableObjectInstaller<EnemyModel>,
+    public class EnemyUnitsModel : ScriptableObjectInstaller<EnemyUnitsModel>,
         ITeam.IEnemyGetter, ITeam.IEnemySetter
     {
 

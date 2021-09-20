@@ -9,7 +9,7 @@
 
     [CreateAssetMenu(fileName = "Player Model", 
         menuName = "Project/Create Player Injectible Model")]
-    public class PlayerModel : EnemyModel, 
+    public class PlayerUnitsModel : EnemyUnitsModel, 
         ITeam.IPlayerGetter, ITeam.IPlayerSetter
     {
 

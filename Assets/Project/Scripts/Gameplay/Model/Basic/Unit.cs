@@ -2,6 +2,7 @@
 {
 
     using Base;
+    using Enum;
 
     using NaughtyAttributes;
     using TMPro;
@@ -55,10 +56,10 @@
 
         #region Class Implementation
 
-        public void Init(Color colorBG)
+        public void Init(Color colorBG, Team team)
         {
             background.color = colorBG;
-            data.Init();
+            data.Init(team);
 
             textDisplayName.text = data.DisplayName;
             visual.sprite = data.Icon;

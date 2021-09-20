@@ -6,6 +6,7 @@
     using NaughtyAttributes;
     using UniRx;
     using UnityEngine;
+    using UnityEngine.UI;
     using Zenject;
 
     [RequireComponent(typeof(Model.Unit))]
@@ -15,6 +16,20 @@
         [SerializeField]
         [Required]
         private Model.Unit unit;
+
+        [Space]
+
+        [SerializeField]
+        [Required]
+        private GameObject parentButtons;
+
+        [SerializeField]
+        [Required]
+        private Button buttonMove;
+
+        [SerializeField]
+        [Required]
+        private Button buttonAttack;
 
         [Inject]
         private readonly ISequence.IGetter iSequenceGetter;
@@ -37,18 +52,36 @@
 
         private void Start()
         {
+            InitTerminalObservers();
+            InitButtonObservers();
+
+            parentButtons.SetActive(false);
+            var activeUnit = iSequenceGetter.GetActiveUnit().Value;
+            OnIsActive((activeUnit != null) && unit.GetInstanceID() == 
+                activeUnit.GetInstanceID());
+        }
+
+        #endregion
+
+        private void InitButtonObservers()
+        {
+            if (Unit.Data.Team != Enum.Team.Player)
+            {
+                return;
+            }
+
+
+        }
+
+        private void InitTerminalObservers()
+        {
+            rIsActive.Subscribe(OnIsActive)
+                    .AddTo(disposablesTerminal);
+
             iSequenceGetter.GetActiveUnit()
                 .Where(unit => (unit != null))
-                .Subscribe(unit => 
+                .Subscribe(unit =>
                     rIsActive.Value = (unit.GetInstanceID() == this.unit.GetInstanceID()))
-                .AddTo(disposablesTerminal);
-
-            rIsActive.Where(isActive => isActive)
-                .Subscribe(_ => 
-                {
-                    rIsMoveFinished.Value = false;
-                    rIsActionFinished.Value = false;
-                })
                 .AddTo(disposablesTerminal);
 
             rIsActionFinished
@@ -64,7 +97,19 @@
                 .AddTo(disposablesTerminal);
         }
 
-        #endregion
+        private void OnIsActive(bool isActive)
+        {
+            if (isActive)
+            {
+                rIsMoveFinished.Value = false;
+                rIsActionFinished.Value = false;
+            }
+
+            if (Unit.Data.Team == Enum.Team.Player)
+            {
+                parentButtons.SetActive(isActive);
+            }
+        }
 
         private void OnTurnFinished()
         {

@@ -77,7 +77,7 @@
                 .ToList();
 
             currentIndex = 0;
-            rActiveUnit.Value = sequencedUnits[currentIndex];
+            rActiveUnit.SetValueAndForceNotify(sequencedUnits[currentIndex]);
         }
 
         public void FinishSequence(Unit unitHolder)

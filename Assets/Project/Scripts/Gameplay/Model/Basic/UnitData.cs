@@ -63,6 +63,8 @@
         private readonly ReactiveProperty<int> rCurrentHp
             = new ReactiveProperty<int>(1);
 
+        private Team team;
+
         #region Accessors
 
         public string DisplayName => displayName;
@@ -79,12 +81,15 @@
 
         public float AIMoveDelay => aIMoveDelay;
 
+        public Team Team => team;
+
         #endregion
 
         #region Class Implementation
 
-        public void Init()
+        public void Init(Team team)
         {
+            this.team = team;
             rCurrentHp.Value = StatMaxHp;
         }
 
