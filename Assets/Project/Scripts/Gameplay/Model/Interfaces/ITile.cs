@@ -13,7 +13,6 @@
         public interface ISetter
         {
             void AddTile(Tile tile);
-
         }
 
         public interface IGetter
@@ -21,10 +20,11 @@
             IReadOnlyReactiveProperty<List<Tile>> GetTiles();
 
             ///<returns>The tile at the direction. Value is NULL if given direction is a dead-end.</returns>
-            Tile GetTile(Tile origin, MoveDirection direction);
-            Tile GetTileAt(Vector3 position);
+            Tile GetTile(Tile origin, MoveDirection direction, bool bypassOccupied = false);
+            Tile GetTileAt(Vector3 position, bool bypassOccupied = false);
 
             Tile GetRandomTile(Tile origin);
+            bool IsTileOnCrossRange(Tile origin, Tile target);
         }
 
     }

@@ -16,17 +16,21 @@
         #region Inspector Fields
 
         [SerializeField]
+        [ReadOnly]
+        public Tile currentTile;
+
+        [SerializeField]
         private UnitData data;
 
         [Space]
 
         [SerializeField]
         [Required]
-        private SpriteRenderer background;
+        private Image background;
 
         [SerializeField]
         [Required]
-        private SpriteRenderer visual;
+        private RawImage visual;
 
         [Header("UI")]
 
@@ -62,7 +66,7 @@
             data.Init(team);
 
             textDisplayName.text = data.DisplayName;
-            visual.sprite = data.Icon;
+            visual.texture = data.Icon;
             sliderHp.maxValue = UnitData.MAX_HP;
             sliderAttack.maxValue = UnitData.MAX_ATTACK;
             sliderSpeed.maxValue = UnitData.MAX_SPEED;

@@ -44,13 +44,14 @@
                 .Where(_ => isMovementAllowed)
                 .Where(_ => Input.GetButtonDown(direction.ToString()))
                 .Select(_ => iTilesGetter.GetTile(
-                    currentTile, direction))
+                    unitController.Unit.currentTile, direction))
                 .Where(destination => (destination != null))
                 .Subscribe(destination =>
                 {
                     isMovementAllowed = false;
                     StopAllCoroutines();
                     StartCoroutine(CorMove(destination));
+                    disposablesBasic.Clear();
                 })
                 .AddTo(disposablesBasic);
         }

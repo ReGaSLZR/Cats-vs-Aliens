@@ -21,6 +21,9 @@
         private readonly ReactiveProperty<string> rCurrentLog =
             new ReactiveProperty<string>();
 
+        private readonly ReactiveProperty<Unit> rSelectedUnit
+            = new ReactiveProperty<Unit>();
+
         #endregion
 
         #region Unity Callbacks
@@ -74,6 +77,11 @@
             rState.Value = state;
         }
 
+        public void SetSelectedUnit(Unit unit)
+        {
+            rSelectedUnit.SetValueAndForceNotify(unit);
+        }
+
         #endregion
 
         #region Getter Implementation
@@ -86,6 +94,10 @@
         public IReadOnlyReactiveProperty<LevelState> GetState()
         {
             return rState;
+        }
+        public IReadOnlyReactiveProperty<Unit> GetSelectedUnit()
+        {
+            return rSelectedUnit;
         }
 
         #endregion

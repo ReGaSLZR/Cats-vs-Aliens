@@ -60,7 +60,7 @@
             return rTiles;
         }
 
-        public Tile GetTile(Tile origin, MoveDirection direction)
+        public Tile GetTile(Tile origin, MoveDirection direction, bool bypassOccupied = false)
         {
             var desiredPosition = origin.Position;
 
@@ -88,15 +88,15 @@
                     }
             }
 
-            return GetTileAt(desiredPosition);
+            return GetTileAt(desiredPosition, bypassOccupied);
         }
 
-        public Tile GetTileAt(Vector3 position)
+        public Tile GetTileAt(Vector3 position, bool bypassOccupied = false)
         {
             var tiles = rTiles.Value;
             foreach (var tile in tiles)
             {
-                if (tile.Position.Equals(position) && !tile.isOccupied)
+                if (tile.Position.Equals(position) && (bypassOccupied || (!bypassOccupied && !tile.isOccupied)))
                 {
                     return tile;
                 }
@@ -131,6 +131,30 @@
             }
 
             return null;
+        }
+
+        public bool IsTileOnCrossRange(Tile origin, Tile target)
+        {
+            if (origin == null || target == null)
+            {
+                return false;
+            }
+
+            var tiles = new List<Tile>();
+            tiles.Add(GetTile(origin, MoveDirection.Up, true));
+            tiles.Add(GetTile(origin, MoveDirection.Down, true));
+            tiles.Add(GetTile(origin, MoveDirection.Left, true));
+            tiles.Add(GetTile(origin, MoveDirection.Right, true));
+
+            //foreach (var tile in tiles)
+            //{
+            //    if (tile != null && tile.Position.Equals(target.Position))
+            //    {
+            //        return true;
+            //    }
+            //}
+
+            return tiles.Contains(target);
         }
 
         #endregion

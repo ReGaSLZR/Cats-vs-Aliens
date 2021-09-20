@@ -16,9 +16,6 @@
         #region Inspector Fields
 
         [SerializeField]
-        protected Tile currentTile;
-
-        [SerializeField]
         [ReadOnly]
         protected UnitTurnController unitController;
 
@@ -68,13 +65,13 @@
                 return;
             }
 
-            if (currentTile != null)
+            if (unitController.Unit.currentTile != null)
             {
-                currentTile.isOccupied = false;
+                unitController.Unit.currentTile.isOccupied = false;
             }
             
             transform.position = tile.Position;
-            currentTile = tile;
+            unitController.Unit.currentTile = tile;
             tile.isOccupied = true;
         }
 

@@ -44,7 +44,7 @@
         private IEnumerator CorMoveRandom()
         {
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
-            SetPosition(iTileGetter.GetRandomTile(currentTile));
+            SetPosition(iTileGetter.GetRandomTile(unitController.Unit.currentTile));
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
             FinishMove();
         }

@@ -24,7 +24,7 @@
         [SerializeField]
         [Required]
         [ShowAssetPreview]
-        private Sprite icon;
+        private Texture icon;
 
         [Header("Stats")]
 
@@ -68,7 +68,7 @@
         #region Accessors
 
         public string DisplayName => displayName;
-        public Sprite Icon => icon;
+        public Texture Icon => icon;
 
         public int StatMaxHp => statMaxHp;
 

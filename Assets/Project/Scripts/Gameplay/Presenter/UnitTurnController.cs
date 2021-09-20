@@ -17,25 +17,32 @@
         [Required]
         private Model.Unit unit;
 
-        [Space]
-
         [SerializeField]
         [Required]
-        private GameObject parentButtons;
+        private Button button;
 
-        [SerializeField]
-        [Required]
-        private Button buttonMove;
+        //[Space]
 
-        [SerializeField]
-        [Required]
-        private Button buttonAttack;
+        //[SerializeField]
+        //[Required]
+        //private GameObject parentButtons;
+
+        //[SerializeField]
+        //[Required]
+        //private Button buttonMove;
+
+        //[SerializeField]
+        //[Required]
+        //private Button buttonAttack;
 
         [Inject]
         private readonly ISequence.IGetter iSequenceGetter;
 
         [Inject]
         private readonly ISequence.ISetter iSequenceSetter;
+
+        [Inject]
+        private readonly ILevel.ISetter iLevelSetter;
 
         private readonly ReactiveProperty<bool> rIsMoveAllowed =
             new ReactiveProperty<bool>();
@@ -55,7 +62,7 @@
             InitTerminalObservers();
             InitButtonObservers();
 
-            parentButtons.SetActive(false);
+            //parentButtons.SetActive(false);
             var activeUnit = iSequenceGetter.GetActiveUnit().Value;
             OnIsActive((activeUnit != null) && unit.GetInstanceID() == 
                 activeUnit.GetInstanceID());
@@ -65,15 +72,17 @@
 
         private void InitButtonObservers()
         {
-            if (Unit.Data.Team != Enum.Team.Player)
-            {
-                return;
-            }
+            button.onClick.AddListener(() => iLevelSetter.SetSelectedUnit(Unit));
 
-            buttonAttack.onClick.AddListener(() => 
-                rIsActionAllowed.Value = false);
-            buttonMove.onClick.AddListener(() => 
-                rIsMoveAllowed.Value = false);
+            //if (Unit.Data.Team != Enum.Team.Player)
+            //{
+            //    return;
+            //}
+
+            //buttonAttack.onClick.AddListener(() =>
+            //    rIsActionAllowed.Value = false);
+            //buttonMove.onClick.AddListener(() =>
+            //    rIsMoveAllowed.Value = false);
         }
 
         private void InitTerminalObservers()
@@ -108,16 +117,20 @@
                 rIsActionAllowed.Value = true;
             }
 
-            if (Unit.Data.Team == Enum.Team.Player)
-            {
-                parentButtons.SetActive(isActive);
-                buttonMove.gameObject.SetActive(isActive);
-                buttonAttack.gameObject.SetActive(isActive);
-            }
+            //if (Unit.Data.Team == Enum.Team.Player)
+            //{
+            //    parentButtons.SetActive(isActive);
+            //    buttonMove.gameObject.SetActive(isActive);
+            //    buttonAttack.gameObject.SetActive(isActive);
+            //}
         }
 
         private void OnTurnFinished()
         {
+            rIsActive.Value = false;
+            rIsMoveAllowed.Value = false;
+            rIsActionAllowed.Value = false;
+
             iSequenceSetter.FinishSequence(Unit);
         }
 
@@ -139,13 +152,13 @@
         public void SetIsMoveFinished()
         {
             rIsMoveAllowed.Value = false;
-            buttonMove.gameObject.SetActive(false);
+            //buttonMove.gameObject.SetActive(false);
         }
 
         public void SetIsActionFinished()
         {
             rIsActionAllowed.Value = false;
-            buttonAttack.gameObject.SetActive(false);
+            //buttonAttack.gameObject.SetActive(false);
         }
 
     }
