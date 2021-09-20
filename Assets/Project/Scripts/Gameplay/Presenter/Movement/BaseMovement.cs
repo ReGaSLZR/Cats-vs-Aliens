@@ -47,7 +47,7 @@
         {
             unitController.GetIsActive()
                 .Where(isActive => isActive)
-                .Where(_ => !unitController.GetIsMoveFinished().Value)
+                .Where(_ => unitController.GetIsMoveAllowed().Value)
                 .Subscribe(_ => OnMove())
                 .AddTo(disposablesTerminal);
         }

@@ -37,10 +37,10 @@
         [Inject]
         private readonly ISequence.ISetter iSequenceSetter;
 
-        private readonly ReactiveProperty<bool> rIsMoveFinished =
+        private readonly ReactiveProperty<bool> rIsMoveAllowed =
             new ReactiveProperty<bool>();
 
-        private readonly ReactiveProperty<bool> rIsActionFinished =
+        private readonly ReactiveProperty<bool> rIsActionAllowed =
             new ReactiveProperty<bool>();
 
         private readonly ReactiveProperty<bool> rIsActive
@@ -70,7 +70,10 @@
                 return;
             }
 
-
+            buttonAttack.onClick.AddListener(() => 
+                rIsActionAllowed.Value = false);
+            buttonMove.onClick.AddListener(() => 
+                rIsMoveAllowed.Value = false);
         }
 
         private void InitTerminalObservers()
@@ -84,15 +87,15 @@
                     rIsActive.Value = (unit.GetInstanceID() == this.unit.GetInstanceID()))
                 .AddTo(disposablesTerminal);
 
-            rIsActionFinished
-                .Where(isActionFinished => isActionFinished)
-                .Where(_ => rIsMoveFinished.Value)
+            rIsActionAllowed
+                .Where(actionAllowed => !actionAllowed)
+                .Where(_ => !rIsMoveAllowed.Value)
                 .Subscribe(_ => OnTurnFinished())
                 .AddTo(disposablesTerminal);
 
-            rIsMoveFinished
-                .Where(isMoveFinished => isMoveFinished)
-                .Where(_ => rIsActionFinished.Value)
+            rIsMoveAllowed
+                .Where(moveAllowed => !moveAllowed)
+                .Where(_ => !rIsActionAllowed.Value)
                 .Subscribe(_ => OnTurnFinished())
                 .AddTo(disposablesTerminal);
         }
@@ -101,13 +104,15 @@
         {
             if (isActive)
             {
-                rIsMoveFinished.Value = false;
-                rIsActionFinished.Value = false;
+                rIsMoveAllowed.Value = true;
+                rIsActionAllowed.Value = true;
             }
 
             if (Unit.Data.Team == Enum.Team.Player)
             {
                 parentButtons.SetActive(isActive);
+                buttonMove.gameObject.SetActive(isActive);
+                buttonAttack.gameObject.SetActive(isActive);
             }
         }
 
@@ -121,24 +126,26 @@
             return rIsActive;
         }
 
-        public IReadOnlyReactiveProperty<bool> GetIsMoveFinished()
+        public IReadOnlyReactiveProperty<bool> GetIsMoveAllowed()
         {
-            return rIsMoveFinished;
+            return rIsMoveAllowed;
         }
 
-        public IReadOnlyReactiveProperty<bool> GetIsActionFinished()
+        public IReadOnlyReactiveProperty<bool> GetIsActionAllowed()
         {
-            return rIsActionFinished;
+            return rIsActionAllowed;
         }
 
         public void SetIsMoveFinished()
         {
-            rIsMoveFinished.Value = true;
+            rIsMoveAllowed.Value = false;
+            buttonMove.gameObject.SetActive(false);
         }
 
         public void SetIsActionFinished()
         {
-            rIsActionFinished.Value = true;
+            rIsActionAllowed.Value = false;
+            buttonAttack.gameObject.SetActive(false);
         }
 
     }

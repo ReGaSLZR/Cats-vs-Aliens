@@ -27,7 +27,7 @@
         {
             unitController.GetIsActive()
                 .Where(isActive => isActive)
-                .Where(_ => !unitController.GetIsActionFinished().Value)
+                .Where(_ => unitController.GetIsActionAllowed().Value)
                 .Subscribe(_ => OnAct())
                 .AddTo(disposablesTerminal);
         }
