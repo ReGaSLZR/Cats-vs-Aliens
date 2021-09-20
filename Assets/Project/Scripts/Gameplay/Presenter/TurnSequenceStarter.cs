@@ -9,7 +9,7 @@
     using UnityEngine;
     using Zenject;
 
-    public class TurnSequencer : BaseReactiveMonoBehaviour
+    public class TurnSequenceStarter : BaseReactiveMonoBehaviour
     {
 
         [Inject]
@@ -26,6 +26,8 @@
 
         [Inject]
         private readonly ILevel.ISetter iLevelSetter;
+
+        private bool isSequencingDone = false;
 
         protected override void RegisterObservables()
         {
@@ -44,10 +46,18 @@
 
         private void SetUpSequence()
         {
+            if (isSequencingDone)
+            {
+                return;
+            }
+
+            isSequencingDone = true;
             LogUtil.PrintInfo(GetType(), "SetUpSequence()");
 
             iSequenceSetter.OrganizeSequence();
             iLevelSetter.SetState(LevelState.InPlay);
+
+            Destroy(this);
         }
 
     }

@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 8389482763730833147, guid: dfbfd68ecd5d5a9498b4716ca9bfeb11,
         type: 3}
       propertyPath: data.aiMove
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8389482763730833147, guid: dfbfd68ecd5d5a9498b4716ca9bfeb11,
         type: 3}

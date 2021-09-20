@@ -6,6 +6,11 @@
     public class PlayerAction : BaseAction
     {
 
+        protected override void OnAct()
+        {
+            FinishAct(); //TODO ren
+        }
+
     }
 
 }

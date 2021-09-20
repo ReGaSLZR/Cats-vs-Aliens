@@ -3,6 +3,7 @@
     using Base;
     using Enum;
     using Model;
+    using Presenter.Action;
     using Presenter.Movement;
     using Util;
 
@@ -119,6 +120,7 @@
                 spawn.Init(iThemeColors.GetBGColor(team));
                 iSequenceSetter.AddUnitForSequence(spawn);
                 SetUpSpawnedUnitMovement(spawn, team, tile);
+                SetUpSpawnedUnitAction(spawn, team);
 
                 index++;
 
@@ -141,9 +143,23 @@
             }
         }
 
+        private void SetUpSpawnedUnitAction(Model.Unit spawn, Team team)
+        {
+            if (team == Team.Player)
+            {
+                spawn.gameObject.AddComponent<PlayerAction>();
+            }
+            else 
+            {
+                spawn.gameObject.AddComponent<AIAction>();
+            }
+
+            iInstantiator.InjectPrefab(spawn.gameObject);
+        }
+
         private void SetUpSpawnedUnitMovement(Model.Unit spawn, Team team, Tile spawnTile)
         {
-            BaseMovement movement = null;
+            BaseMovement movement;
             if (team == Team.Player)
             {
                 movement = spawn.gameObject.AddComponent<PlayerMovement>();

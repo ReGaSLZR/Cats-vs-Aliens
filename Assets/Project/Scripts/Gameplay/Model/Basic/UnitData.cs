@@ -55,6 +55,9 @@
         [SerializeField]
         private float aIMoveDelay;
 
+        [SerializeField]
+        private ActOptionAI aiActOption = ActOptionAI.NoAction;
+
         #endregion
 
         private readonly ReactiveProperty<int> rCurrentHp
@@ -72,6 +75,7 @@
         public int StatAttack => statAttack;
 
         public MoveOptionAI AIMove => aiMove;
+        public ActOptionAI AIActOption => aiActOption;
 
         public float AIMoveDelay => aIMoveDelay;
 
