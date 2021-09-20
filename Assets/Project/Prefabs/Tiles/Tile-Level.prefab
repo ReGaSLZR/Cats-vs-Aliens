@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71671078b08f1864bae1926a329cb6cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOccupied: 0
   gridSize: {x: 1, y: 1, z: 1}
   spriteRenderer: {fileID: 7814980813038195198}
-  spriteColor: {r: 1, g: 1, b: 1, a: 1}
+  spriteColor: {r: 1, g: 1, b: 1, a: 0.4745098}
   showInRuntime: 1
 --- !u!212 &7814980813038195198
 SpriteRenderer:
