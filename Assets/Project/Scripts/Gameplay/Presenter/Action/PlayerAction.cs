@@ -2,6 +2,8 @@
 {
 
     using Model;
+    using Util;
+
     using System.Collections;
     using UniRx;
     using UniRx.Triggers;
@@ -19,14 +21,7 @@
         private readonly ITile.IGetter iTileGetter;
 
         protected override void OnAct()
-        {
-            //this.UpdateAsObservable()
-            //    .Where(_ => Input.GetMouseButtonDown(0))
-            //    .Subscribe()
-            //    .
-
-            //FinishAct(); //TODO ren
-        }
+        {}
 
         private void Start()
         {
@@ -43,11 +38,17 @@
 
         private IEnumerator CorOnMove(Model.Unit unit)
         {
-            //TODO
             if (iTileGetter.IsTileOnCrossRange(
                 unitController.Unit.currentTile, unit.currentTile))
             {
-                unit.Data.Damage(unitController.Unit.Data.StatAttack);
+                if (unit.Data.Team == Enum.Team.Player)
+                {
+                    LogUtil.PrintInfo(GetType(), $"CorOnMove(): " +
+                        $"Cannot hit allies.");
+                }
+                else { 
+                    unit.Data.Damage(unitController.Unit.Data.StatAttack);
+                }
             }
 
             yield return null;

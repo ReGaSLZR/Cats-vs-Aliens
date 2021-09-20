@@ -146,14 +146,6 @@
             tiles.Add(GetTile(origin, MoveDirection.Left, true));
             tiles.Add(GetTile(origin, MoveDirection.Right, true));
 
-            //foreach (var tile in tiles)
-            //{
-            //    if (tile != null && tile.Position.Equals(target.Position))
-            //    {
-            //        return true;
-            //    }
-            //}
-
             return tiles.Contains(target);
         }
 

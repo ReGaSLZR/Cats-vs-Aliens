@@ -2,6 +2,7 @@
 {
     using Base;
     using Model;
+    using Util;
 
     using NaughtyAttributes;
     using UniRx;
@@ -20,20 +21,6 @@
         [SerializeField]
         [Required]
         private Button button;
-
-        //[Space]
-
-        //[SerializeField]
-        //[Required]
-        //private GameObject parentButtons;
-
-        //[SerializeField]
-        //[Required]
-        //private Button buttonMove;
-
-        //[SerializeField]
-        //[Required]
-        //private Button buttonAttack;
 
         [Inject]
         private readonly ISequence.IGetter iSequenceGetter;
@@ -62,7 +49,6 @@
             InitTerminalObservers();
             InitButtonObservers();
 
-            //parentButtons.SetActive(false);
             var activeUnit = iSequenceGetter.GetActiveUnit().Value;
             OnIsActive((activeUnit != null) && unit.GetInstanceID() == 
                 activeUnit.GetInstanceID());
@@ -72,17 +58,16 @@
 
         private void InitButtonObservers()
         {
-            button.onClick.AddListener(() => iLevelSetter.SetSelectedUnit(Unit));
-
-            //if (Unit.Data.Team != Enum.Team.Player)
-            //{
-            //    return;
-            //}
-
-            //buttonAttack.onClick.AddListener(() =>
-            //    rIsActionAllowed.Value = false);
-            //buttonMove.onClick.AddListener(() =>
-            //    rIsMoveAllowed.Value = false);
+            button.onClick.AddListener(() => {
+                iLevelSetter.SetSelectedUnit(Unit);
+                
+                if (rIsActionAllowed.Value)
+                {
+                    LogUtil.PrintInfo(gameObject, GetType(), 
+                        "On Self ButtonClick(): Skipped Action.");
+                    SetIsActionFinished();
+                }
+            });
         }
 
         private void InitTerminalObservers()
@@ -116,13 +101,6 @@
                 rIsMoveAllowed.Value = true;
                 rIsActionAllowed.Value = true;
             }
-
-            //if (Unit.Data.Team == Enum.Team.Player)
-            //{
-            //    parentButtons.SetActive(isActive);
-            //    buttonMove.gameObject.SetActive(isActive);
-            //    buttonAttack.gameObject.SetActive(isActive);
-            //}
         }
 
         private void OnTurnFinished()
@@ -152,13 +130,11 @@
         public void SetIsMoveFinished()
         {
             rIsMoveAllowed.Value = false;
-            //buttonMove.gameObject.SetActive(false);
         }
 
         public void SetIsActionFinished()
         {
             rIsActionAllowed.Value = false;
-            //buttonAttack.gameObject.SetActive(false);
         }
 
     }

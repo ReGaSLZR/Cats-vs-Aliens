@@ -170,8 +170,6 @@
             }
 
             iInstantiator.InjectPrefab(spawn.gameObject);
-            LogUtil.PrintInfo(spawnTile.gameObject, GetType(), 
-                $"SpawnTile for team {team} | {spawnTile.Position}");
             movement.SetPosition(iTile.GetTileAt(spawnTile.Position));
         }
 
