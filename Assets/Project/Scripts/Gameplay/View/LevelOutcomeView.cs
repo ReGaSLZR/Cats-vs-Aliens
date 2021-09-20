@@ -24,6 +24,14 @@
         [Required]
         private TextMeshProUGUI textTeamWinner;
 
+        [SerializeField]
+        [Required]
+        private GameObject parentPlayerWinDesign;
+
+        [SerializeField]
+        [Required]
+        private GameObject parentEnemyWinDesign;
+
         [Inject]
         private readonly ITeam.IEnemyGetter iEnemy;
 
@@ -42,11 +50,16 @@
                 .Where(state => state == LevelState.Ended)
                 .Subscribe(_ => {
                     LogUtil.PrintInfo(GetType(), "On Level End");
+
                     var isPlayerWinner = (iEnemy.GetStatus().Value == TeamStatus.WipedOut);
+
                     textTeamWinner.text = isPlayerWinner
                         ? Team.Player.ToString() : Team.Enemy.ToString();
                     textTeamWinner.color = isPlayerWinner 
                         ? iThemeColors.PlayerUnitBG : iThemeColors.EnemyUnitBG;
+
+                    parentPlayerWinDesign.SetActive(isPlayerWinner);
+                    parentEnemyWinDesign.SetActive(!isPlayerWinner);
                     parentView.SetActive(true);
                 })
                 .AddTo(disposablesBasic);
