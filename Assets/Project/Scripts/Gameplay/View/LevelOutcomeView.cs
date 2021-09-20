@@ -54,7 +54,7 @@
                 .Subscribe(_ => {
                     LogUtil.PrintInfo(GetType(), "On Level End");
 
-                    iLevelSetter.SetLog("Game Over!");
+                    iLevelSetter.SetLog("GAME OVER!");
                     var isPlayerWinner = (iEnemy.GetStatus().Value == TeamStatus.WipedOut);
 
                     textTeamWinner.text = isPlayerWinner

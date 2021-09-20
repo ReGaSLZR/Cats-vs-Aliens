@@ -64,8 +64,7 @@
         private void Init()
         {
             var data = unit.Data;
-            background.color = data.Team == Enum.Team.Player 
-                ? iThemeColor.PlayerUnitBG : iThemeColor.EnemyUnitBG;
+            background.color = iThemeColor.GetBGColor(data.Team);
             textDisplayName.text = data.DisplayName;
             visual.texture = data.Icon;
             sliderHp.maxValue = UnitData.MAX_HP;

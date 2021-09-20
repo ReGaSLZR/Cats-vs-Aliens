@@ -59,7 +59,7 @@
 
         private IEnumerator CorMove(Tile destination)
         {
-            iLevelSetter.SetLog($"Player Unit {unitController.Unit.Data.DisplayName} moved to {destination.gameObject.name}.");
+            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogDanger)}><color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{unitController.Unit.Data.DisplayName}</color> moved to {destination.gameObject.name}.</color>");
             SetPosition(destination);
             yield return null;
             FinishMove();

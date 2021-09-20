@@ -40,6 +40,9 @@
         private readonly ReactiveProperty<bool> rIsActive
             = new ReactiveProperty<bool>();
 
+        [Inject]
+        private readonly ThemeColors iThemeColors;
+
         public Model.Unit Unit => unit;
 
         #region Unity Callbacks
@@ -70,7 +73,7 @@
                 {
                     LogUtil.PrintInfo(gameObject, GetType(), 
                         "On Self ButtonClick(): Skipped Action.");
-                    iLevelSetter.SetLog($"Player Unit {Unit.Data.DisplayName} skipped action.");
+                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{Unit.Data.DisplayName}</color> skipped action.");
                     SetIsActionFinished();
                 }
             });
@@ -83,7 +86,7 @@
                 .Subscribe(_ =>
                 {
                     unit.currentTile.isOccupied = false;
-                    iLevelSetter.SetLog($"{Unit.Data.DisplayName} died!");
+                    iLevelSetter.SetLog($"<b><color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>{Unit.Data.DisplayName} died!</color></b>");
                     Destroy(gameObject, 0.25f);
                 })
                 .AddTo(disposablesTerminal);
@@ -126,7 +129,7 @@
             rIsMoveAllowed.Value = false;
             rIsActionAllowed.Value = false;
 
-            iLevelSetter.SetLog($"----------------------");
+            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInfo)}>----------------------</color>");
             iSequenceSetter.FinishSequence(Unit);
         }
 

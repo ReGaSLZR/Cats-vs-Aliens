@@ -39,7 +39,7 @@
                 default:
                     {
                         LogUtil.PrintInfo(GetType(), "NoAction");
-                        iLevelSetter.SetLog($"Pacifist enemy unit {unitController.Unit.Data.DisplayName} took no action.");
+                        iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInfo)}>Pacifist <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}> {unitController.Unit.Data.DisplayName}</color> took no action.</color>");
                         FinishAct();
                         break;
                     }
@@ -60,14 +60,14 @@
                         && unit.Data.GetCurrentHp().Value > 0)
                     {
                         unit.Data.Damage(unitController.Unit.Data.StatAttack);
-                        iLevelSetter.SetLog($"Enemy {unitController.Unit.Data.DisplayName} attacked {unit.Data.DisplayName} with {unitController.Unit.Data.StatAttack} damage.");
+                        iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>{unitController.Unit.Data.DisplayName}</color> attacked <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{unit.Data.DisplayName}</color> with <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>{unitController.Unit.Data.StatAttack} damage.</color>");
                         FinishAct();
                         return;
                     }
                 }
             }
 
-            iLevelSetter.SetLog($"Enemy {unitController.Unit.Data.DisplayName} had no targets in close range. Skipping act.");
+            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInvalid)}><color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>{unitController.Unit.Data.DisplayName}</color> had no targets in close range. Skipping act.</color>");
             FinishAct();
         }
 

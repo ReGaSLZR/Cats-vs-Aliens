@@ -43,8 +43,9 @@
                 .Subscribe(log => {
                     var entry = Instantiate(prefabEntry, scrollRect.content);
                     entry.text = log;
+                    entry.transform.SetSiblingIndex(0);
                     scrollRect.normalizedPosition = new Vector2(0, 0);
-                    scrollRect.verticalNormalizedPosition = 0f;
+                    scrollRect.verticalNormalizedPosition = 1f;
                 })
                 .AddTo(disposablesBasic);
 

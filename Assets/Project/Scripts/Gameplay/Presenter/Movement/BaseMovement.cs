@@ -35,6 +35,9 @@
         [Inject]
         protected readonly ILevel.ISetter iLevelSetter;
 
+        [Inject]
+        protected readonly ThemeColors iThemeColors;
+
         #endregion
 
         protected abstract void OnMove();

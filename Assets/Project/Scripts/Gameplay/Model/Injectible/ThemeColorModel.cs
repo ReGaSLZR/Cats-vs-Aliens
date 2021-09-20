@@ -3,7 +3,8 @@
     using UnityEngine;
     using Zenject;
 
-    [CreateAssetMenu(fileName = "Theme Color Model", menuName = "Project/Create Theme Color Model")]
+    [CreateAssetMenu(fileName = "Theme Color Model", 
+        menuName = "Project/Create Theme Color Model")]
     public class ThemeColorModel : ScriptableObjectInstaller<ThemeColorModel>
     {
 

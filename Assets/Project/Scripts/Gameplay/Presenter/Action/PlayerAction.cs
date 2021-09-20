@@ -7,6 +7,7 @@
     using System.Collections;
     using UniRx;
     using Zenject;
+    using UnityEngine;
 
     public class PlayerAction : BaseAction
     {
@@ -42,17 +43,17 @@
                 {
                     LogUtil.PrintInfo(GetType(), $"CorOnMove(): " +
                         $"Cannot hit allies.");
-                    iLevelSetter.SetLog($"Player Unit {unitController.Unit.Data.DisplayName} tried to hit ally {unit.Data.DisplayName}. Invalid act. Auto-skipping.");
+                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}> {unitController.Unit.Data.DisplayName}</color> tried to hit ally <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{unit.Data.DisplayName}</color>. <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInvalid)}>Invalid act. Auto-skipping.</color>");
                 }
                 else
                 {
-                    iLevelSetter.SetLog($"Player Unit {unitController.Unit.Data.DisplayName} attacked Enemy Unit {unit.Data.DisplayName} with {unitController.Unit.Data.StatAttack} damage.");
+                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}> {unitController.Unit.Data.DisplayName}</color> attacked <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}> {unit.Data.DisplayName}</color> with <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>{unitController.Unit.Data.StatAttack} damage.</color>");
                     unit.Data.Damage(unitController.Unit.Data.StatAttack);
                 }
             }
             else if(!unit.currentTile.Position.Equals(unitController.Unit.currentTile.Position))
             {
-                iLevelSetter.SetLog($"Target {unit.Data.DisplayName} is not in range of Player Unit {unitController.Unit.Data.DisplayName}. Auto-skipping act.");
+                iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInvalid)}>Target {unit.Data.DisplayName} is not in range of <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{unitController.Unit.Data.DisplayName}. </color>Auto-skipping act.</color>");
             }
 
             yield return null;

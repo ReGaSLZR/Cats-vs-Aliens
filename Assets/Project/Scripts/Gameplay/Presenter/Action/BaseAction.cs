@@ -24,6 +24,9 @@
         [Inject]
         private readonly ILevel.IGetter iLevelGettter;
 
+        [Inject]
+        protected readonly ThemeColors iThemeColors;
+
         protected abstract void OnAct();
 
         private void Awake()

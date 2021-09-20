@@ -44,7 +44,9 @@
         {
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
             SetPosition(iTileGetter.GetRandomTile(unitController.Unit.currentTile));
-            iLevelSetter.SetLog($"Enemy Unit {unitController.Unit.Data.DisplayName} moved randomly to {unitController.Unit.currentTile.gameObject.name}.");
+            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>" +
+                $"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>{unitController.Unit.Data.DisplayName}</color> " +
+                $"moved randomly to {unitController.Unit.currentTile.gameObject.name}.</color>");
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
             LogUtil.PrintInfo(GetType(), "CorMoveRandom()");
             FinishMove();
@@ -54,7 +56,7 @@
         {
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
             LogUtil.PrintInfo(GetType(), "CorMoveStationary()");
-            iLevelSetter.SetLog($"Enemy Unit {unitController.Unit.Data.DisplayName} didn't move at all.");
+            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>{unitController.Unit.Data.DisplayName}</color> didn't move at all.");
             FinishMove();
         }
 
