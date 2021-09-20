@@ -25,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 4277742932436484862, guid: 60951fdb2071136409bbe632632256a8,
         type: 3}
       propertyPath: data.statAttack
-      value: 5
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4277742932436484862, guid: 60951fdb2071136409bbe632632256a8,
         type: 3}
