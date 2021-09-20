@@ -22,39 +22,14 @@
         [SerializeField]
         private UnitData data;
 
-        [Space]
-
-        [SerializeField]
-        [Required]
-        private Image background;
-
-        [SerializeField]
-        [Required]
-        private RawImage visual;
-
-        [Header("UI")]
-
-        [SerializeField]
-        [Required]
-        private TextMeshProUGUI textDisplayName;
-
-        [SerializeField]
-        [Required]
-        private Slider sliderHp;
-
-        [SerializeField]
-        [Required]
-        private Slider sliderAttack;
-
-        [SerializeField]
-        [Required]
-        private Slider sliderSpeed;
-
         #endregion
 
         #region Accessor
 
         public UnitData Data => data;
+
+        private readonly ReactiveProperty<bool> rOnInit
+            = new ReactiveProperty<bool>(false);
 
         #endregion
 
@@ -62,21 +37,13 @@
 
         public void Init(Color colorBG, Team team)
         {
-            background.color = colorBG;
             data.Init(team);
+            rOnInit.Value = true;
+        }
 
-            textDisplayName.text = data.DisplayName;
-            visual.texture = data.Icon;
-            sliderHp.maxValue = UnitData.MAX_HP;
-            sliderAttack.maxValue = UnitData.MAX_ATTACK;
-            sliderSpeed.maxValue = UnitData.MAX_SPEED;
-
-            sliderAttack.value = data.StatAttack;
-            sliderSpeed.value = data.StatSpeed;
-
-            data.GetCurrentHp()
-                .Subscribe(hp => sliderHp.value = hp)
-                .AddTo(disposablesTerminal);
+        public IReadOnlyReactiveProperty<bool> GetOnInit()
+        {
+            return rOnInit;
         }
 
         #endregion

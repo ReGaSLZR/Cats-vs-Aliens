@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 367357226570033414}
   - component: {fileID: 8389482763730833147}
   - component: {fileID: 6161823216796118372}
+  - component: {fileID: 3725453193322554870}
   m_Layer: 0
   m_Name: TempUnit
   m_TagString: Untagged
@@ -166,12 +167,6 @@ MonoBehaviour:
     aIMoveDelay: 1
     aiActOption: 0
     aIActDelay: 0.25
-  background: {fileID: 2460304204480562019}
-  visual: {fileID: 3663026926298343414}
-  textDisplayName: {fileID: 6476334862367617516}
-  sliderHp: {fileID: 9100151213694527185}
-  sliderAttack: {fileID: 8855222209485126345}
-  sliderSpeed: {fileID: 8120313277903056362}
 --- !u!114 &6161823216796118372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +181,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 8389482763730833147}
   button: {fileID: 6851828147938039867}
+--- !u!114 &3725453193322554870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367357226570033408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d90c6b29e3863f46af1fedcf4aeb2cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 2460304204480562019}
+  visual: {fileID: 3663026926298343414}
+  textDisplayName: {fileID: 6476334862367617516}
+  sliderHp: {fileID: 9100151213694527185}
+  sliderAttack: {fileID: 8855222209485126345}
+  sliderSpeed: {fileID: 8120313277903056362}
+  unit: {fileID: 0}
 --- !u!1 &1232023216020183779
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,7 +1499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

@@ -74,7 +74,11 @@
         {
             unit.Data.GetCurrentHp()
                 .Where(hp => hp <= 0)
-                .Subscribe(_ => Destroy(gameObject, 0.25f))
+                .Subscribe(_ =>
+                {
+                    unit.currentTile.isOccupied = false;
+                    Destroy(gameObject, 0.25f);
+                })
                 .AddTo(disposablesTerminal);
 
             rIsActive.Subscribe(OnIsActive)

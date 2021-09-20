@@ -71,7 +71,7 @@ PrefabInstance:
         type: 3}
       propertyPath: data.icon
       value: 
-      objectReference: {fileID: 2800000, guid: 005888ede18a58e4db8d069cfa3007cb, type: 3}
+      objectReference: {fileID: 2800000, guid: 6d187f899c80ac84ca3431c7884b4c60, type: 3}
     - target: {fileID: 8389482763730833147, guid: dfbfd68ecd5d5a9498b4716ca9bfeb11,
         type: 3}
       propertyPath: data.aiMove
