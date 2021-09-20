@@ -56,6 +56,9 @@
         private readonly Base.IInstantiator iInstantiator;
 
         [Inject]
+        private readonly ILevel.ISetter iLevelSetter;
+
+        [Inject]
         private readonly ThemeColors iThemeColors;
 
         [Inject]
@@ -136,10 +139,12 @@
             if (team == Team.Enemy)
             {
                 iEnemySetter.SetStatus(TeamStatus.InPlay);
+                iLevelSetter.SetLog("Enemy Units are ready.");
             }
             else 
             {
                 iPlayerSetter.SetStatus(TeamStatus.InPlay);
+                iLevelSetter.SetLog("Player Units are ready.");
             }
         }
 

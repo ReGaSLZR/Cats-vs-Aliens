@@ -66,10 +66,11 @@
             button.onClick.AddListener(() => {
                 iLevelSetter.SetSelectedUnit(Unit);
                 
-                if (rIsActionAllowed.Value)
+                if (rIsActionAllowed.Value && Unit.Data.Team == Enum.Team.Player)
                 {
                     LogUtil.PrintInfo(gameObject, GetType(), 
                         "On Self ButtonClick(): Skipped Action.");
+                    iLevelSetter.SetLog($"Player Unit {Unit.Data.DisplayName} skipped action.");
                     SetIsActionFinished();
                 }
             });
@@ -82,6 +83,7 @@
                 .Subscribe(_ =>
                 {
                     unit.currentTile.isOccupied = false;
+                    iLevelSetter.SetLog($"{Unit.Data.DisplayName} died!");
                     Destroy(gameObject, 0.25f);
                 })
                 .AddTo(disposablesTerminal);
@@ -124,6 +126,7 @@
             rIsMoveAllowed.Value = false;
             rIsActionAllowed.Value = false;
 
+            iLevelSetter.SetLog($"----------------------");
             iSequenceSetter.FinishSequence(Unit);
         }
 

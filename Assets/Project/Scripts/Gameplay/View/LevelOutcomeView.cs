@@ -39,6 +39,9 @@
         private readonly ITeam.IPlayerGetter iPlayer;
 
         [Inject]
+        private readonly ILevel.ISetter iLevelSetter;
+
+        [Inject]
         private readonly ThemeColors iThemeColors;
 
         [Inject]
@@ -51,6 +54,7 @@
                 .Subscribe(_ => {
                     LogUtil.PrintInfo(GetType(), "On Level End");
 
+                    iLevelSetter.SetLog("Game Over!");
                     var isPlayerWinner = (iEnemy.GetStatus().Value == TeamStatus.WipedOut);
 
                     textTeamWinner.text = isPlayerWinner

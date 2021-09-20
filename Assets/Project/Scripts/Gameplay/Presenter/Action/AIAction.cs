@@ -39,6 +39,7 @@
                 default:
                     {
                         LogUtil.PrintInfo(GetType(), "NoAction");
+                        iLevelSetter.SetLog($"Pacifist enemy unit {unitController.Unit.Data.DisplayName} took no action.");
                         FinishAct();
                         break;
                     }
@@ -59,12 +60,14 @@
                         && unit.Data.GetCurrentHp().Value > 0)
                     {
                         unit.Data.Damage(unitController.Unit.Data.StatAttack);
+                        iLevelSetter.SetLog($"Enemy {unitController.Unit.Data.DisplayName} attacked {unit.Data.DisplayName} with {unitController.Unit.Data.StatAttack} damage.");
                         FinishAct();
                         return;
                     }
                 }
             }
 
+            iLevelSetter.SetLog($"Enemy {unitController.Unit.Data.DisplayName} had no targets in close range. Skipping act.");
             FinishAct();
         }
 

@@ -17,8 +17,8 @@
         [Inject]
         private readonly ITile.IGetter iTileGetter;
 
-        protected override void OnAct()
-        {}
+
+        protected override void OnAct(){}
 
         private void Start()
         {
@@ -28,12 +28,12 @@
                 .Where(unit => unitController.GetIsActionAllowed().Value)
                 .Subscribe(unit =>
                 {
-                    StartCoroutine(CorOnMove(unit));
+                    StartCoroutine(CorOnAct(unit));
                 })
                 .AddTo(disposablesTerminal);
         }
 
-        private IEnumerator CorOnMove(Model.Unit unit)
+        private IEnumerator CorOnAct(Model.Unit unit)
         {
             if (iTileGetter.IsTileOnCrossRange(
                 unitController.Unit.currentTile, unit.currentTile))
@@ -42,10 +42,17 @@
                 {
                     LogUtil.PrintInfo(GetType(), $"CorOnMove(): " +
                         $"Cannot hit allies.");
+                    iLevelSetter.SetLog($"Player Unit {unitController.Unit.Data.DisplayName} tried to hit ally {unit.Data.DisplayName}. Invalid act. Auto-skipping.");
                 }
-                else { 
+                else
+                {
+                    iLevelSetter.SetLog($"Player Unit {unitController.Unit.Data.DisplayName} attacked Enemy Unit {unit.Data.DisplayName} with {unitController.Unit.Data.StatAttack} damage.");
                     unit.Data.Damage(unitController.Unit.Data.StatAttack);
                 }
+            }
+            else if(!unit.currentTile.Position.Equals(unitController.Unit.currentTile.Position))
+            {
+                iLevelSetter.SetLog($"Target {unit.Data.DisplayName} is not in range of Player Unit {unitController.Unit.Data.DisplayName}. Auto-skipping act.");
             }
 
             yield return null;

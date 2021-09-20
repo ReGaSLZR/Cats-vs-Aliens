@@ -18,9 +18,6 @@
         [Inject]
         private readonly ITile.IGetter iTilesGetter;
 
-        [Inject]
-        private readonly ILevel.IGetter iLevelGetter;
-
         private bool isMovementAllowed;
 
         #endregion
@@ -62,6 +59,7 @@
 
         private IEnumerator CorMove(Tile destination)
         {
+            iLevelSetter.SetLog($"Player Unit {unitController.Unit.Data.DisplayName} moved to {destination.gameObject.name}.");
             SetPosition(destination);
             yield return null;
             FinishMove();

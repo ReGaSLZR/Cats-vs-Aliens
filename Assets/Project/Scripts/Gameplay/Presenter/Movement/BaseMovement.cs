@@ -30,7 +30,10 @@
         protected readonly ISequence.ISetter iSequenceSetter;
 
         [Inject]
-        private readonly ILevel.IGetter iLevelGettter;
+        protected readonly ILevel.IGetter iLevelGettter;
+
+        [Inject]
+        protected readonly ILevel.ISetter iLevelSetter;
 
         #endregion
 

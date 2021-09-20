@@ -19,6 +19,9 @@
         protected UnitTurnController unitController;
 
         [Inject]
+        protected readonly ILevel.ISetter iLevelSetter;
+
+        [Inject]
         private readonly ILevel.IGetter iLevelGettter;
 
         protected abstract void OnAct();
