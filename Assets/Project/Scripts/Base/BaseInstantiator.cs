@@ -7,10 +7,14 @@
     public class BaseInstantiator : MonoInstaller, IInstantiator
     {
 
+        #region Class Overrides
+
         public override void InstallBindings()
         {
             Container.Bind<IInstantiator>().FromInstance(this);
         }
+
+        #endregion
 
         #region Instantiator Implementation
         public void InjectPrefab(GameObject prefab)

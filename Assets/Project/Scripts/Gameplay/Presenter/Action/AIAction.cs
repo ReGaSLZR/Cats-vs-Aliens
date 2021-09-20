@@ -12,17 +12,27 @@
     public class AIAction : BaseAction
     {
 
+        #region Private Fields
+
         [Inject]
         private readonly ITile.IGetter iTileGetter;
 
         [Inject]
         private readonly ISequence.IGetter iSequenceGetter;
 
+        #endregion
+
+        #region Class Overrides
+
         protected override void OnAct()
         {
             StopAllCoroutines();
             StartCoroutine(CorAct());
         }
+
+        #endregion
+
+        #region Class Implementation
 
         private IEnumerator CorAct()
         {
@@ -53,7 +63,7 @@
 
             foreach (var tile in tilesInRange)
             { 
-                if (tile != null && tile.isOccupied)
+                if (tile != null && tile.IsOccupied)
                 {
                     var unit = iSequenceGetter.GetUnitAtTile(tile);
                     if (unit != null && (unit.Data.Team == Team.Player)
@@ -70,6 +80,8 @@
             iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInvalid)}><color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>{unitController.Unit.Data.DisplayName}</color> had no targets in close range. Skipping act.</color>");
             FinishAct();
         }
+
+        #endregion
 
     }
 

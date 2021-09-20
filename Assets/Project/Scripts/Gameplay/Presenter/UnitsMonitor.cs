@@ -12,6 +12,8 @@
     public class UnitsMonitor : BaseReactiveMonoBehaviour
     {
 
+        #region Private Fields
+
         [Inject]
         private readonly ISequence.ISetter iSequenceSetter;
 
@@ -31,12 +33,13 @@
         private readonly ITeam.IPlayerSetter iPlayerSetter;
 
         [Inject]
-        private readonly ILevel.IGetter iLevelGetter;
-
-        [Inject]
         private readonly ILevel.ISetter iLevelSetter;
 
         private bool isSequencingDone = false;
+
+        #endregion
+
+        #region Class Overrides
 
         protected override void RegisterObservables()
         {
@@ -52,6 +55,10 @@
                 .Subscribe(_ => SetUpSequence())
                 .AddTo(disposablesBasic);
         }
+
+        #endregion
+
+        #region Class Implementation
 
         private void SetUpSequence()
         {
@@ -118,6 +125,8 @@
                 iLevelSetter.SetState(LevelState.Ended);
             }
         }
+
+        #endregion
 
     }
 

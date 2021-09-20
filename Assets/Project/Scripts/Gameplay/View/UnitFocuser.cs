@@ -13,6 +13,8 @@
     public class UnitFocuser : BaseReactiveMonoBehaviour
     {
 
+        #region Inspector Fields
+
         [SerializeField]
         [Required]
         private CinemachineVirtualCameraBase cam;
@@ -24,13 +26,21 @@
         [SerializeField]
         private float delayOnChangeFocus = 1f;
 
+        #endregion
+
         [Inject]
         private readonly ISequence.IGetter iSequenceGetter;
+
+        #region Unity Callbacks
 
         private void Awake()
         {
             unitHighlighter.enabled = false;
         }
+
+        #endregion
+
+        #region Class Overrides
 
         protected override void RegisterObservables()
         {
@@ -43,6 +53,10 @@
                 .AddTo(disposablesBasic);
         }
 
+        #endregion
+
+        #region Class Implementation
+
         private IEnumerator CorChangeFocus(Transform focus)
         {
             unitHighlighter.enabled = true;
@@ -54,6 +68,8 @@
             cam.Follow = focus;
             cam.LookAt = focus;
         }
+
+        #endregion
 
     }
 

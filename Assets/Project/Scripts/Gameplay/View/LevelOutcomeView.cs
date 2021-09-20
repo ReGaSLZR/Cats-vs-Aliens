@@ -16,6 +16,8 @@
     public class LevelOutcomeView : BaseReactiveMonoBehaviour
     {
 
+        #region Inspector Fields
+
         [SerializeField]
         [Required]
         private GameObject parentView;
@@ -32,6 +34,10 @@
         [Required]
         private GameObject parentEnemyWinDesign;
 
+        #endregion
+
+        #region Private Fields
+
         [Inject]
         private readonly ITeam.IEnemyGetter iEnemy;
 
@@ -46,6 +52,10 @@
 
         [Inject]
         private readonly ILevel.IGetter iLevel;
+
+        #endregion
+
+        #region Class Overrides
 
         protected override void RegisterObservables()
         {
@@ -69,10 +79,16 @@
                 .AddTo(disposablesBasic);
         }
 
+        #endregion
+
+        #region Unity Callbacks
+
         private void Start()
         {
             parentView.SetActive(false);
         }
+
+        #endregion
 
     }
 

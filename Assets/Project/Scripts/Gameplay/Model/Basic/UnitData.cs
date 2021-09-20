@@ -12,9 +12,13 @@
     public class UnitData
     {
 
+        #region Constant Fields
+
         public const int MAX_ATTACK = 10;
         public const int MAX_SPEED = 10;
         public const int MAX_HP = 10;
+
+        #endregion
 
         #region Inspector Fields
 
@@ -54,10 +58,14 @@
 
         #endregion
 
+        #region Private Fields
+
         private readonly ReactiveProperty<int> rCurrentHp
             = new ReactiveProperty<int>(1);
 
         private Team team;
+
+        #endregion
 
         #region Accessors
 

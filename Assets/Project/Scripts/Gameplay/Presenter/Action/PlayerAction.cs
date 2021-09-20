@@ -12,14 +12,19 @@
     public class PlayerAction : BaseAction
     {
 
+        #region Private Fields
+
         [Inject]
         private readonly ILevel.IGetter iLevelGetter;
 
         [Inject]
         private readonly ITile.IGetter iTileGetter;
 
+        #endregion
 
         protected override void OnAct(){}
+
+        #region Unity Callbacks
 
         private void Start()
         {
@@ -33,6 +38,10 @@
                 })
                 .AddTo(disposablesTerminal);
         }
+
+        #endregion
+
+        #region Class Implementation
 
         private IEnumerator CorOnAct(Model.Unit unit)
         {
@@ -59,6 +68,8 @@
             yield return null;
             FinishAct();
         }
+
+        #endregion
 
     }
 

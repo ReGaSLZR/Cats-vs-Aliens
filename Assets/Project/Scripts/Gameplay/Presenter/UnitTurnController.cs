@@ -14,6 +14,8 @@
     public class UnitTurnController : BaseReactiveMonoBehaviour
     {
 
+        #region Inspector Fields
+
         [SerializeField]
         [ReadOnly]
         private Model.Unit unit;
@@ -21,6 +23,10 @@
         [SerializeField]
         [Required]
         private Button button;
+
+        #endregion
+
+        #region Private Fields
 
         [Inject]
         private readonly ISequence.IGetter iSequenceGetter;
@@ -43,6 +49,8 @@
         [Inject]
         private readonly ThemeColors iThemeColors;
 
+        #endregion
+
         public Model.Unit Unit => unit;
 
         #region Unity Callbacks
@@ -64,6 +72,8 @@
 
         #endregion
 
+        #region Class Implementation
+
         private void InitButtonObservers()
         {
             button.onClick.AddListener(() => {
@@ -73,7 +83,8 @@
                 {
                     LogUtil.PrintInfo(gameObject, GetType(), 
                         "On Self ButtonClick(): Skipped Action.");
-                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{Unit.Data.DisplayName}</color> skipped action.");
+                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>" +
+                        $"{Unit.Data.DisplayName}</color> skipped action.");
                     SetIsActionFinished();
                 }
             });
@@ -85,8 +96,9 @@
                 .Where(hp => hp <= 0)
                 .Subscribe(_ =>
                 {
-                    unit.currentTile.isOccupied = false;
-                    iLevelSetter.SetLog($"<b><color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>{Unit.Data.DisplayName} died!</color></b>");
+                    unit.currentTile.IsOccupied = false;
+                    iLevelSetter.SetLog($"<b><color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>" +
+                        $"{Unit.Data.DisplayName} died!</color></b>");
                     Destroy(gameObject, 0.25f);
                 })
                 .AddTo(disposablesTerminal);
@@ -119,7 +131,6 @@
             {
                 rIsMoveAllowed.Value = true;
                 rIsActionAllowed.Value = true;
-                //rIsActionAllowed.Value = (unit.Data.Team == Enum.Team.Player);
             }
         }
 
@@ -129,7 +140,8 @@
             rIsMoveAllowed.Value = false;
             rIsActionAllowed.Value = false;
 
-            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInfo)}>----------------------</color>");
+            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInfo)}" +
+                $">----------------------</color>");
             iSequenceSetter.FinishSequence(Unit);
         }
 
@@ -151,17 +163,14 @@
         public void SetIsMoveFinished()
         {
             rIsMoveAllowed.Value = false;
-
-            //if ((unit.Data.Team != Enum.Team.Player))
-            //{
-            //    rIsActionAllowed.Value = true;
-            //}
         }
 
         public void SetIsActionFinished()
         {
             rIsActionAllowed.Value = false;
         }
+
+        #endregion
 
     }
 

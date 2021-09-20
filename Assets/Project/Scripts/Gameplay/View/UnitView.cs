@@ -15,6 +15,8 @@
     public class UnitView : BaseReactiveMonoBehaviour
     {
 
+        #region Inspector Fields
+
         [SerializeField]
         [Required]
         private Image background;
@@ -41,12 +43,20 @@
         [Required]
         private Slider sliderSpeed;
 
+        #endregion
+
+        #region Private Fields
+
         [SerializeField]
         [ReadOnly]
         private Model.Unit unit;
 
         [Inject]
         private readonly ThemeColors iThemeColor;
+
+        #endregion
+
+        #region Unity Callbacks
 
         private void Awake()
         {
@@ -60,6 +70,10 @@
                 .Subscribe(_ => Init())
                 .AddTo(disposablesTerminal);
         }
+
+        #endregion
+
+        #region Class Implementation
 
         private void Init()
         {
@@ -78,6 +92,9 @@
                 .Subscribe(hp => sliderHp.value = hp)
                 .AddTo(disposablesTerminal);
         }
+
+        #endregion
+
     }
 
 }

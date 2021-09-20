@@ -44,6 +44,8 @@
 
         #endregion
 
+        #region Class Implementation
+
         [Button("Spawn Level Tile")]
         private void CreateLevelTile()
         {
@@ -101,6 +103,8 @@
                 DestroyImmediate(parent.GetChild(x).gameObject);
             }
         }
+
+        #endregion
 
     }
 

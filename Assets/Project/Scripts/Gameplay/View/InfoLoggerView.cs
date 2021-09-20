@@ -13,6 +13,8 @@
     public class InfoLoggerView : BaseReactiveMonoBehaviour
     {
 
+        #region Inspector Fields
+
         [SerializeField]
         [Required]
         private TextMeshProUGUI prefabEntry;
@@ -23,8 +25,12 @@
         [Required]
         private ScrollRect scrollRect;
 
+        #endregion
+
         [Inject]
         private readonly ILevel.IGetter iLevelGetter;
+
+        #region Unity Callbacks
 
         private void Awake()
         {
@@ -35,6 +41,10 @@
                 DestroyImmediate(scrollRect.content.GetChild(x).gameObject);
             }
         }
+
+        #endregion
+
+        #region Class Overrides
 
         protected override void RegisterObservables()
         {
@@ -50,6 +60,8 @@
                 .AddTo(disposablesBasic);
 
         }
+
+        #endregion
 
     }
 

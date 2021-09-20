@@ -13,7 +13,9 @@
     [RequireComponent(typeof(UnitTurnController))]
     public abstract class BaseAction : BaseReactiveMonoBehaviour
     {
-        
+
+        #region Private Fields
+
         [SerializeField]
         [ReadOnly]
         protected UnitTurnController unitController;
@@ -27,7 +29,9 @@
         [Inject]
         protected readonly ThemeColors iThemeColors;
 
-        protected abstract void OnAct();
+        #endregion
+
+        #region Unity Callbacks
 
         private void Awake()
         {
@@ -47,6 +51,10 @@
                 .Subscribe(_ => Destroy(this))
                 .AddTo(disposablesTerminal);
         }
+
+        #endregion
+
+        protected abstract void OnAct();
 
         protected void FinishAct()
         {

@@ -12,8 +12,12 @@
     public class AIMovement : BaseMovement
     {
 
+        #region Private Fields
+
         [Inject]
         private readonly ITile.IGetter iTileGetter;
+
+        #endregion
 
         #region Class Overrides
         protected override void OnMove()

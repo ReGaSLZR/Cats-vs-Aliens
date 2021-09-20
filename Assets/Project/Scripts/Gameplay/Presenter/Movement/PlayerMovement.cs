@@ -42,7 +42,6 @@
         {
             this.UpdateAsObservable()
                 .Where(_ => isMovementAllowed)
-                //.Where(_ => iLevelGetter.GetState().Value == LevelState.InPlay)
                 .Where(_ => Input.GetButtonDown(direction.ToString()))
                 .Select(_ => iTilesGetter.GetTile(
                     unitController.Unit.currentTile, direction))
