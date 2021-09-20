@@ -56,7 +56,7 @@
                 }
                 else
                 {
-                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}> {unitController.Unit.Data.DisplayName}</color> attacked <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}> {unit.Data.DisplayName}</color> with <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>{unitController.Unit.Data.StatAttack} damage.</color>");
+                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{unitController.Unit.Data.DisplayName}</color> attacked <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}> {unit.Data.DisplayName}</color> with <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>{unitController.Unit.Data.StatAttack} damage.</color>");
                     unit.Data.Damage(unitController.Unit.Data.StatAttack);
                 }
             }
