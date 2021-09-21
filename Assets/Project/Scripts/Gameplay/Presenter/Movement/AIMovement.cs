@@ -47,10 +47,21 @@
         private IEnumerator CorMoveRandom()
         {
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
-            SetPosition(iTileGetter.GetRandomTile(unitController.Unit.currentTile));
-            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>" +
-                $"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>{unitController.Unit.Data.DisplayName}</color> " +
-                $"moved randomly to {unitController.Unit.currentTile.gameObject.name}.</color>");
+            var destination = iTileGetter.GetRandomTile(unitController.Unit.currentTile);
+            SetPosition(destination);
+            if (destination == null)
+            {
+                iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInfo)}>" +
+                    $"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>" +
+                    $"{unitController.Unit.Data.DisplayName}</color> cannot move anywhere!</color>");
+            }
+            else
+            {
+                iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>" +
+                    $"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>{unitController.Unit.Data.DisplayName}</color> " +
+                    $"moved randomly to {unitController.Unit.currentTile.gameObject.name}.</color>");
+            }
+            
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
             LogUtil.PrintInfo(GetType(), "CorMoveRandom()");
             FinishMove();
@@ -60,7 +71,8 @@
         {
             yield return new WaitForSeconds(unitController.Unit.Data.AIMoveDelay);
             LogUtil.PrintInfo(GetType(), "CorMoveStationary()");
-            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>{unitController.Unit.Data.DisplayName}</color> didn't move at all.");
+            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>" +
+                $"{unitController.Unit.Data.DisplayName}</color> didn't move at all.");
             FinishMove();
         }
 

@@ -75,17 +75,15 @@
         {
             iTile.IsReady()
                 .Where(isReady => isReady)
-                .Where(_ => iEnemyGetter.GetIsInitFinished().Value)
-                .Select(_ => iEnemyGetter.GetUnits().Value)
+                .Select(_ => iEnemyGetter.GetRawStartingUnits())
                 .Subscribe(units => OnReceiveUnits(
                     Team.Enemy, units))
                 .AddTo(disposablesBasic);
 
             iTile.IsReady()
                 .Where(isReady => isReady)
-                .Where(_ => iPlayerGetter.GetIsInitFinished().Value)
                 .Where(isFinished => isFinished)
-                .Select(_ => iPlayerGetter.GetUnits().Value)
+                .Select(_ => iPlayerGetter.GetRawStartingUnits())
                 .Subscribe(units => OnReceiveUnits(
                     Team.Player, units))
                 .AddTo(disposablesBasic);

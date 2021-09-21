@@ -28,11 +28,6 @@
         protected readonly ReactiveProperty<TeamStatus> rStatus
             = new ReactiveProperty<TeamStatus>();
 
-        protected readonly ReactiveProperty<List<Unit>> rUnits = new ReactiveProperty<List<Unit>>();
-
-        protected readonly ReactiveProperty<bool> rIsInitFinished =
-            new ReactiveProperty<bool>();
-
         #endregion
 
         #region MonoInstaller Implementations
@@ -60,46 +55,12 @@
 
         protected virtual void InitValues()
         {
-            rIsInitFinished.Value = false;
             rStatus.Value = TeamStatus.NotReady;
-            rUnits.Value = new List<Unit>();
-
-            ClearUnits();
-            foreach (var unit in startingUnits)
-            {
-                AddUnit(unit);
-            }
-
-            rIsInitFinished.Value = true;
         }
 
         #endregion
         
         #region Setter Implementation
-
-        public void AddUnit(Unit unit)
-        {
-            if (unit == null)
-            {
-                LogUtil.PrintWarning(GetType(), "AddUnit(): unit is NULL. Skipping...");
-                return;
-            }
-
-            if (unit.Data.StatMaxHp <= 0)
-            {
-                LogUtil.PrintError(GetType(), $"AddUnit(): unit " +
-                    $"{unit.Data.DisplayName} has invalid Max HP! Skipping...");
-                return;
-            }
-
-            rUnits.Value.Add(unit);
-        }
-
-        public void ClearUnits()
-        {
-            LogUtil.PrintInfo(GetType(), "ClearUnits() called.");
-            rUnits.Value.Clear();
-        }
 
         public void SetStatus(TeamStatus playerStatus)
         {
@@ -110,19 +71,14 @@
 
         #region Getter Implementation
 
-        public IReadOnlyReactiveProperty<List<Unit>> GetUnits()
+        public List<Unit> GetRawStartingUnits()
         {
-            return rUnits;
+            return startingUnits;
         }
 
         public IReadOnlyReactiveProperty<TeamStatus> GetStatus()
         {
             return rStatus;
-        }
-
-        public IReadOnlyReactiveProperty<bool> GetIsInitFinished()
-        {
-            return rIsInitFinished;
         }
 
         #endregion

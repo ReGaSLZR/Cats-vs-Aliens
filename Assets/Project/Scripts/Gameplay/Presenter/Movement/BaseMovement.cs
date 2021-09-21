@@ -50,7 +50,7 @@
             unitController = GetComponent<UnitTurnController>();
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             unitController.GetIsActive()
                 .Where(isActive => isActive)
@@ -70,14 +70,13 @@
 
         protected void FinishMove()
         {
-            unitController.SetIsMoveFinished();
+            unitController.FinishMove();
         }
 
         public void SetPosition(Tile tile)
         {
             if (tile == null)
             {
-                LogUtil.PrintWarning(GetType(), $"SetPosition(): tile is NULL!");
                 return;
             }
 

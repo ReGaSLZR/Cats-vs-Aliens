@@ -10,16 +10,13 @@
 
         public interface IEnemySetter
         {
-            void AddUnit(Unit unit);
-            void ClearUnits();
             void SetStatus(TeamStatus playerStatus);
         }
 
         public interface IEnemyGetter
         {
-            IReadOnlyReactiveProperty<List<Unit>> GetUnits();
+            List<Unit> GetRawStartingUnits();
             IReadOnlyReactiveProperty<TeamStatus> GetStatus();
-            IReadOnlyReactiveProperty<bool> GetIsInitFinished();
         }
 
         public interface IPlayerSetter : IEnemySetter

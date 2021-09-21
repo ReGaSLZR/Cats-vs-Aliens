@@ -18,20 +18,18 @@
         [Inject]
         private readonly ITile.IGetter iTilesGetter;
 
-        private bool isMovementAllowed;
-
         #endregion
 
         #region Class Overrides
 
         protected override void OnMove()
         {
+            disposablesBasic.Clear();
+
             RegisterMovement(MoveDirection.Up);
             RegisterMovement(MoveDirection.Down);
             RegisterMovement(MoveDirection.Left);
             RegisterMovement(MoveDirection.Right);
-
-            isMovementAllowed = true;
         }
 
         #endregion
@@ -41,14 +39,14 @@
         private void RegisterMovement(MoveDirection direction)
         {
             this.UpdateAsObservable()
-                .Where(_ => isMovementAllowed)
+                .Where(_ => unitController.GetIsActive().Value)
                 .Where(_ => Input.GetButtonDown(direction.ToString()))
                 .Select(_ => iTilesGetter.GetTile(
                     unitController.Unit.currentTile, direction))
                 .Where(destination => (destination != null))
                 .Subscribe(destination =>
                 {
-                    isMovementAllowed = false;
+                    iLevelSetter.SetLog($"Movement Input '{direction}' received!");
                     StopAllCoroutines();
                     StartCoroutine(CorMove(destination));
                     disposablesBasic.Clear();

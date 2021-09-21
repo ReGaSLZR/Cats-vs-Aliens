@@ -58,7 +58,7 @@
 
         protected void FinishAct()
         {
-            unitController.SetIsActionFinished();
+            unitController.FinishAction();
         }
 
     }

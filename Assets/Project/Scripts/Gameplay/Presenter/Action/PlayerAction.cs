@@ -52,17 +52,28 @@
                 {
                     LogUtil.PrintInfo(GetType(), $"CorOnMove(): " +
                         $"Cannot hit allies.");
-                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}> {unitController.Unit.Data.DisplayName}</color> tried to hit ally <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{unit.Data.DisplayName}</color>. <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInvalid)}>Invalid act. Auto-skipping.</color>");
+                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>" +
+                        $"{unitController.Unit.Data.DisplayName}</color> tried to hit ally <color=#" +
+                        $"{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{unit.Data.DisplayName}</color>. " +
+                        $"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInvalid)}>Invalid act. " +
+                        $"Auto-skipping.</color>");
                 }
                 else
                 {
-                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{unitController.Unit.Data.DisplayName}</color> attacked <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}> {unit.Data.DisplayName}</color> with <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>{unitController.Unit.Data.StatAttack} damage.</color>");
+                    iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>" +
+                        $"{unitController.Unit.Data.DisplayName}</color> attacked <color=#" +
+                        $"{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}> {unit.Data.DisplayName}" +
+                        $"</color> with <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>" +
+                        $"{unitController.Unit.Data.StatAttack} damage.</color>");
                     unit.Data.Damage(unitController.Unit.Data.StatAttack);
                 }
             }
             else if(!unit.currentTile.Position.Equals(unitController.Unit.currentTile.Position))
             {
-                iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInvalid)}>Target {unit.Data.DisplayName} is not in range of <color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>{unitController.Unit.Data.DisplayName}. </color>Auto-skipping act.</color>");
+                iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInvalid)}>" +
+                    $"Target {unit.Data.DisplayName} is not in range of <color=#" +
+                    $"{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>" +
+                    $"{unitController.Unit.Data.DisplayName}. </color>Auto-skipping act.</color>");
             }
 
             yield return null;

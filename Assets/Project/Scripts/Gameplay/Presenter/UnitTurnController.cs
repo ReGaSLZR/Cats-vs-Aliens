@@ -84,8 +84,8 @@
                     LogUtil.PrintInfo(gameObject, GetType(), 
                         "On Self ButtonClick(): Skipped Action.");
                     iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>" +
-                        $"{Unit.Data.DisplayName}</color> skipped action.");
-                    SetIsActionFinished();
+                        $"{Unit.Data.DisplayName}</color> skipped turn.");
+                    OnTurnFinished();
                 }
             });
         }
@@ -160,14 +160,24 @@
             return rIsActionAllowed;
         }
 
-        public void SetIsMoveFinished()
+        public void FinishMove()
         {
             rIsMoveAllowed.Value = false;
+            
+            if ((Unit.Data.Team == Enum.Team.Player) && rIsActionAllowed.Value)
+            {
+                iLevelSetter.SetLog($"Waiting for action...");
+            }
         }
 
-        public void SetIsActionFinished()
+        public void FinishAction()
         {
             rIsActionAllowed.Value = false;
+
+            if ((Unit.Data.Team == Enum.Team.Player) && rIsMoveAllowed.Value)
+            {
+                iLevelSetter.SetLog($"Waiting for move...");
+            }
         }
 
         #endregion
