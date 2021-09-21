@@ -40,6 +40,9 @@
         [Inject]
         private readonly ILevel.ISetter iLevelSetter;
 
+        [Inject]
+        private readonly ThemeColors iThemeColors;
+
         private readonly ReactiveProperty<bool> rIsMoveAllowed =
             new ReactiveProperty<bool>();
 
@@ -48,9 +51,6 @@
 
         private readonly ReactiveProperty<bool> rIsActive
             = new ReactiveProperty<bool>();
-
-        [Inject]
-        private readonly ThemeColors iThemeColors;
 
         #endregion
 
@@ -67,10 +67,6 @@
         {
             InitTerminalObservers();
             InitButtonObservers();
-
-            var activeUnit = iSequenceGetter.GetActiveUnit().Value;
-            //OnIsActive((activeUnit != null) && unit.GetInstanceID() == 
-            //    activeUnit.GetInstanceID());
         }
 
         #endregion
@@ -100,7 +96,7 @@
             button.onClick.AddListener(() => {
                 iLevelSetter.SetSelectedUnit(Unit);
                 
-                if (rIsActionAllowed.Value && Unit.Data.Team == Enum.Team.Player)
+                if (rIsActive.Value && Unit.Data.Team == Enum.Team.Player)
                 {
                     LogUtil.PrintInfo(gameObject, GetType(), 
                         "On Self ButtonClick(): Skipped Action.");
