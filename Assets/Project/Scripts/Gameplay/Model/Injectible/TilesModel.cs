@@ -10,56 +10,54 @@
     using UnityEngine;
     using System.Linq;
 
-    [CreateAssetMenu(fileName = "Tile Model", menuName = "Project/Create Tile Model")]
-    public class TileModel : ScriptableObjectInstaller<TileModel>,
-        ITile.ISetter, ITile.IGetter
+    [CreateAssetMenu(fileName = "Tiles Model", menuName = "Project/Create Tiles Model")]
+    public class TilesModel : ScriptableObjectInstaller<TilesModel>, ITile.IGetter
     {
 
         #region Private Fields
 
-        private readonly ReactiveProperty<List<Tile>> rTiles 
-            = new ReactiveProperty<List<Tile>>();
+        private readonly ReactiveDictionary<string, Tile> rDicTiles
+            = new ReactiveDictionary<string, Tile>();
 
         private readonly ReactiveProperty<bool> rIsReady
             = new ReactiveProperty<bool>();
-
-        private int tilesVisibleInScene;
 
         #endregion
 
         public override void InstallBindings()
         {
             InitValues();
-
             Container.Bind<ITile.IGetter>().FromInstance(this);
-            Container.Bind<ITile.ISetter>().FromInstance(this);
         }
 
         #region Class Implementation
 
         private void InitValues()
         {
-            tilesVisibleInScene = FindObjectsOfType<Tile>().ToList()
-                .Where(tile => tile.ShowInRuntime).Count();
-
             rIsReady.Value = false;
-            rTiles.Value = new List<Tile>();
+            rDicTiles.Clear();
+
+            var tilesVisibleInScene = FindObjectsOfType<Tile>().ToList()
+                .Where(tile => tile.ShowInRuntime);
+
+            foreach (var tile in tilesVisibleInScene)
+            {
+                AddTile(tile);
+            }
+
+            rIsReady.Value = true;
         }
 
-        #endregion
-
-        #region Setter Implementation
-
-        public void AddTile(Tile tile)
+        private void AddTile(Tile tile)
         {
-            if (tile == null)
+            if (tile == null || rDicTiles.ContainsKey(tile.gameObject.name))
             {
-                LogUtil.PrintWarning(GetType(), $"AddTile(): tile is NULL. Skipping...");
+                LogUtil.PrintWarning(GetType(), $"AddTile(): tile is NULL or " +
+                    $"already registered. Skipping...");
                 return;
             }
 
-            rTiles.Value.Add(tile);
-            rIsReady.Value = (rTiles.Value.Count == tilesVisibleInScene);
+            rDicTiles.Add(tile.gameObject.name, tile);
         }
 
         #endregion
@@ -69,11 +67,6 @@
         public IReadOnlyReactiveProperty<bool> IsReady()
         {
             return rIsReady;
-        }
-
-        public IReadOnlyReactiveProperty<List<Tile>> GetTiles()
-        {
-            return rTiles;
         }
 
         public Tile GetTile(Tile origin, MoveDirection direction, 
@@ -115,12 +108,12 @@
 
         public Tile GetTileAt(Vector3 position, bool bypassOccupied = false)
         {
-            foreach (var tile in rTiles.Value)
+            foreach (var tile in rDicTiles)
             {
-                if (tile.Position.Equals(position) && 
-                    (bypassOccupied || (!bypassOccupied && !tile.isOccupied)))
+                if (tile.Value.Position.Equals(position) && 
+                    (bypassOccupied || (!bypassOccupied && !tile.Value.isOccupied)))
                 {
-                    return tile;
+                    return tile.Value;
                 }
             }
 
@@ -134,12 +127,12 @@
                 return null;
             }
 
-            foreach (var tile in rTiles.Value)
+            foreach (var tile in rDicTiles)
             {
-                if (name.Equals(tile.gameObject.name) 
-                    && (bypassOccupied || (!bypassOccupied && !tile.isOccupied)))
+                if (name.Equals(tile.Key) 
+                    && (bypassOccupied || (!bypassOccupied && !tile.Value.isOccupied)))
                 {
-                    return tile;
+                    return tile.Value;
                 }
             }
 

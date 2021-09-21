@@ -106,6 +106,7 @@
 
             foreach (var unit in units)
             {
+                //Safely check for missing spawn markers
                 while (tile == null)
                 {
                     if (index >= list.Count)
@@ -119,12 +120,7 @@
                     tile = list[index];
                 }
 
-                var spawn = Instantiate(unit, 
-                    (team == Team.Player) ? parentUnitPlayer : parentUnitEnemies);
-                spawn.Init(iThemeColors.GetBGColor(team), team);
-                iSequenceSetter.AddUnitForSequence(spawn);
-                SetUpSpawnedUnitMovement(spawn, team, tile);
-                SetUpSpawnedUnitAction(spawn, team);
+                SpawnUnit(unit, team, tile);
 
                 index++;
 
@@ -140,13 +136,25 @@
             if (team == Team.Enemy)
             {
                 iEnemySetter.SetStatus(TeamStatus.InPlay);
-                iLevelSetter.SetLog("Enemy Units are ready.");
+                iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}" +
+                    $">Enemy Units</color> are ready.");
             }
             else 
             {
                 iPlayerSetter.SetStatus(TeamStatus.InPlay);
-                iLevelSetter.SetLog("Player Units are ready.");
+                iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}" +
+                    $">Player Units</color> are ready.");
             }
+        }
+
+        private void SpawnUnit(Model.Unit unit, Team team, Tile tile)
+        {
+            var spawn = Instantiate(unit,
+                        (team == Team.Player) ? parentUnitPlayer : parentUnitEnemies);
+            spawn.Init(team);
+            iSequenceSetter.AddUnitForSequence(spawn);
+            SetUpSpawnedUnitMovement(spawn, team, tile);
+            SetUpSpawnedUnitAction(spawn, team);
         }
 
         private void SetUpSpawnedUnitAction(Model.Unit spawn, Team team)
@@ -176,7 +184,6 @@
             }
 
             iInstantiator.InjectPrefab(spawn.gameObject);
-            //movement.SetPosition(iTile.GetTileAt(spawnTile.Position));
             movement.SetPosition(iTile.GetTileWithName(spawnTile.gameObject.name));
         }
 

@@ -84,7 +84,7 @@
                     LogUtil.PrintInfo(gameObject, GetType(), 
                         "On Self ButtonClick(): Skipped Action.");
                     iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}>" +
-                        $"{Unit.Data.DisplayName}</color> skipped turn.");
+                        $"{Unit.Data.DisplayName}</color> finished turn.");
                     OnTurnFinished();
                 }
             });

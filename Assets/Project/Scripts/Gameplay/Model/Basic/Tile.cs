@@ -5,7 +5,6 @@
 
 	using NaughtyAttributes;
     using UnityEngine;
-	using Zenject;
 
 	[RequireComponent(typeof(SpriteRenderer))]
     public class Tile : BaseReactiveMonoBehaviour
@@ -40,13 +39,6 @@
 
         #endregion
 
-        #region Private Fields
-
-        [Inject]
-		private readonly ITile.ISetter iTilesSetter;
-
-        #endregion
-
         #region Unity Callbacks
 
         private void OnDrawGizmos()
@@ -64,19 +56,6 @@
 		}
 
         #endregion
-
-        #region Class Overrides
-
-        protected override void RegisterObservables()
-		{
-			if (showInRuntime)
-			{ 
-				iTilesSetter.AddTile(this);
-			}
-		}
-
-
-		#endregion
 
 		#region Class Implementation
 

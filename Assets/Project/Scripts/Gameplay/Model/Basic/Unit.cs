@@ -35,7 +35,7 @@
 
         #region Class Implementation
 
-        public void Init(Color colorBG, Team team)
+        public void Init(Team team)
         {
             data.Init(team);
             rOnInit.Value = true;

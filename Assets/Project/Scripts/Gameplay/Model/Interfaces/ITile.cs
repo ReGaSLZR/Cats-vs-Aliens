@@ -10,14 +10,8 @@
     public static class ITile
     {
 
-        public interface ISetter
-        {
-            void AddTile(Tile tile);
-        }
-
         public interface IGetter
         {
-            IReadOnlyReactiveProperty<List<Tile>> GetTiles();
             IReadOnlyReactiveProperty<bool> IsReady();
 
             ///<returns>The tile at the direction. Value is NULL if given direction is a dead-end.</returns>
