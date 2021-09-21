@@ -137,13 +137,13 @@
             {
                 iEnemySetter.SetStatus(TeamStatus.InPlay);
                 iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}" +
-                    $">Enemy Units</color> are ready.");
+                    $">Enemy Team</color> ready.");
             }
             else 
             {
                 iPlayerSetter.SetStatus(TeamStatus.InPlay);
                 iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.PlayerUnitBG)}" +
-                    $">Player Units</color> are ready.");
+                    $">Player Team</color> ready.");
             }
         }
 

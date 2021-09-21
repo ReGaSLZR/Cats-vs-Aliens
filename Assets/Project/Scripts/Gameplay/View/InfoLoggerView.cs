@@ -23,6 +23,10 @@
 
         [SerializeField]
         [Required]
+        private GameObject parentView;
+
+        [SerializeField]
+        [Required]
         private ScrollRect scrollRect;
 
         [SerializeField]
@@ -67,6 +71,10 @@
                 })
                 .AddTo(disposablesBasic);
 
+            iLevelGetter.GetState()
+                .Select(state => state != Enum.LevelState.Ended)
+                .Subscribe(isOngoing => parentView.SetActive(isOngoing))
+                .AddTo(disposablesBasic);
         }
 
         #endregion

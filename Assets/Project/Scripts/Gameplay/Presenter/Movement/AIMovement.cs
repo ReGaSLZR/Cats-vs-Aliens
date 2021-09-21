@@ -57,7 +57,7 @@
             }
             else
             {
-                iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>" +
+                iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInfo)}>" +
                     $"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.EnemyUnitBG)}>{unitController.Unit.Data.DisplayName}</color> " +
                     $"moved randomly to {unitController.Unit.currentTile.gameObject.name}.</color>");
             }
