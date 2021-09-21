@@ -73,14 +73,17 @@
 
         protected override void RegisterObservables()
         {
-            iEnemyGetter.GetIsInitFinished()
-                .Where(isFinished => isFinished)
+            iTile.IsReady()
+                .Where(isReady => isReady)
+                .Where(_ => iEnemyGetter.GetIsInitFinished().Value)
                 .Select(_ => iEnemyGetter.GetUnits().Value)
                 .Subscribe(units => OnReceiveUnits(
                     Team.Enemy, units))
                 .AddTo(disposablesBasic);
 
-            iPlayerGetter.GetIsInitFinished()
+            iTile.IsReady()
+                .Where(isReady => isReady)
+                .Where(_ => iPlayerGetter.GetIsInitFinished().Value)
                 .Where(isFinished => isFinished)
                 .Select(_ => iPlayerGetter.GetUnits().Value)
                 .Subscribe(units => OnReceiveUnits(
@@ -105,18 +108,18 @@
 
             foreach (var unit in units)
             {
-                //while (tile == null)
-                //{
-                //    if (index >= list.Count)
-                //    {
-                //        LogUtil.PrintWarning(GetType(), $"OnReceiveUnits(): " +
-                //            $"All spawner tiles are null for Team {team}");
-                //        return;
-                //    }
+                while (tile == null)
+                {
+                    if (index >= list.Count)
+                    {
+                        LogUtil.PrintWarning(GetType(), $"OnReceiveUnits(): " +
+                            $"All spawner tiles are null for Team {team}");
+                        return;
+                    }
 
-                //    index++;
-                //    tile = list[index];
-                //}
+                    index++;
+                    tile = list[index];
+                }
 
                 var spawn = Instantiate(unit, 
                     (team == Team.Player) ? parentUnitPlayer : parentUnitEnemies);
@@ -150,8 +153,6 @@
 
         private void SetUpSpawnedUnitAction(Model.Unit spawn, Team team)
         {
-            LogUtil.PrintInfo(GetType(), $"SetUpSpawnedUnit Action(): " +
-                $"{spawn.Data.DisplayName}");
             if (team == Team.Player)
             {
                 spawn.gameObject.AddComponent<PlayerAction>();
@@ -166,8 +167,6 @@
 
         private void SetUpSpawnedUnitMovement(Model.Unit spawn, Team team, Tile spawnTile)
         {
-            LogUtil.PrintInfo(GetType(), $"SetUpSpawnedUnit Movement(): " +
-                $"{spawn.Data.DisplayName} | spawnTile {spawnTile}");
             BaseMovement movement;
             if (team == Team.Player)
             {
@@ -179,7 +178,8 @@
             }
 
             iInstantiator.InjectPrefab(spawn.gameObject);
-            movement.SetPosition(iTile.GetTileAt(spawnTile.Position));
+            //movement.SetPosition(iTile.GetTileAt(spawnTile.Position));
+            movement.SetPosition(iTile.GetTileWithName(spawnTile.gameObject.name));
         }
 
         public void AddSpawnTile(Team team, Tile tile)

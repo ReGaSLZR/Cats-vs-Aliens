@@ -8,6 +8,7 @@
     using UniRx;
     using Zenject;
     using UnityEngine;
+    using System.Linq;
 
     [CreateAssetMenu(fileName = "Tile Model", menuName = "Project/Create Tile Model")]
     public class TileModel : ScriptableObjectInstaller<TileModel>,
@@ -18,6 +19,11 @@
 
         private readonly ReactiveProperty<List<Tile>> rTiles 
             = new ReactiveProperty<List<Tile>>();
+
+        private readonly ReactiveProperty<bool> rIsReady
+            = new ReactiveProperty<bool>();
+
+        private int tilesVisibleInScene;
 
         #endregion
 
@@ -33,6 +39,10 @@
 
         private void InitValues()
         {
+            tilesVisibleInScene = FindObjectsOfType<Tile>().ToList()
+                .Where(tile => tile.ShowInRuntime).Count();
+
+            rIsReady.Value = false;
             rTiles.Value = new List<Tile>();
         }
 
@@ -49,18 +59,25 @@
             }
 
             rTiles.Value.Add(tile);
+            rIsReady.Value = (rTiles.Value.Count == tilesVisibleInScene);
         }
 
         #endregion
 
         #region Getter Implementation
 
+        public IReadOnlyReactiveProperty<bool> IsReady()
+        {
+            return rIsReady;
+        }
+
         public IReadOnlyReactiveProperty<List<Tile>> GetTiles()
         {
             return rTiles;
         }
 
-        public Tile GetTile(Tile origin, MoveDirection direction, bool bypassOccupied = false)
+        public Tile GetTile(Tile origin, MoveDirection direction, 
+            bool bypassOccupied = false)
         {
             if (origin == null)
             {
@@ -98,11 +115,29 @@
 
         public Tile GetTileAt(Vector3 position, bool bypassOccupied = false)
         {
-            var tiles = rTiles.Value;
-            foreach (var tile in tiles)
+            foreach (var tile in rTiles.Value)
             {
                 if (tile.Position.Equals(position) && 
                     (bypassOccupied || (!bypassOccupied && !tile.isOccupied)))
+                {
+                    return tile;
+                }
+            }
+
+            return null;
+        }
+
+        public Tile GetTileWithName(string name, bool bypassOccupied = false)
+        {
+            if (string.IsNullOrEmpty(name)) 
+            {
+                return null;
+            }
+
+            foreach (var tile in rTiles.Value)
+            {
+                if (name.Equals(tile.gameObject.name) 
+                    && (bypassOccupied || (!bypassOccupied && !tile.isOccupied)))
                 {
                     return tile;
                 }

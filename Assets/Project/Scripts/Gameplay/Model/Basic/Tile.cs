@@ -36,6 +36,8 @@
 
 		public Vector3 Position => gameObject.transform.position;
 
+		public bool ShowInRuntime => showInRuntime;
+
         #endregion
 
         #region Private Fields
