@@ -78,7 +78,7 @@
         private void Init()
         {
             var data = unit.Data;
-            background.color = iThemeColor.GetBGColor(data.Team);
+            background.color = iThemeColor.GetTeamColor(data.Team);
             textDisplayName.text = data.DisplayName;
             visual.texture = data.Icon;
             sliderHp.maxValue = UnitData.MAX_HP;

@@ -25,6 +25,9 @@
         [Required]
         private ScrollRect scrollRect;
 
+        [SerializeField]
+        private bool isFromTopToBottom;
+
         #endregion
 
         [Inject]
@@ -53,9 +56,14 @@
                 .Subscribe(log => {
                     var entry = Instantiate(prefabEntry, scrollRect.content);
                     entry.text = log;
-                    entry.transform.SetSiblingIndex(0);
-                    scrollRect.normalizedPosition = new Vector2(0, 0);
-                    scrollRect.verticalNormalizedPosition = 1f;
+
+                    if (!isFromTopToBottom)
+                    {
+                        entry.transform.SetSiblingIndex(0);
+                    }
+                    
+                    scrollRect.normalizedPosition = isFromTopToBottom ? Vector2.up : Vector2.zero;
+                    scrollRect.verticalNormalizedPosition = isFromTopToBottom ? 0f : 1f;
                 })
                 .AddTo(disposablesBasic);
 

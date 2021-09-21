@@ -35,6 +35,9 @@
         private readonly ISequence.ISetter iSequenceSetter;
 
         [Inject]
+        private readonly ILevel.IGetter iLevelGetter;
+
+        [Inject]
         private readonly ILevel.ISetter iLevelSetter;
 
         private readonly ReactiveProperty<bool> rIsMoveAllowed =
@@ -66,8 +69,26 @@
             InitButtonObservers();
 
             var activeUnit = iSequenceGetter.GetActiveUnit().Value;
-            OnIsActive((activeUnit != null) && unit.GetInstanceID() == 
-                activeUnit.GetInstanceID());
+            //OnIsActive((activeUnit != null) && unit.GetInstanceID() == 
+            //    activeUnit.GetInstanceID());
+        }
+
+        #endregion
+
+        #region Class Overrides
+
+        protected override void RegisterObservables()
+        {
+            unit.Data.GetCurrentHp()
+                .Where(hp => hp <= 0)
+                .Subscribe(_ =>
+                {
+                    unit.currentTile.isOccupied = false;
+                    iLevelSetter.SetLog($"<b><color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>" +
+                        $"{Unit.Data.DisplayName} died!</color></b>");
+                    Destroy(gameObject, 0.25f);
+                })
+                .AddTo(disposablesBasic);
         }
 
         #endregion
@@ -92,19 +113,10 @@
 
         private void InitTerminalObservers()
         {
-            unit.Data.GetCurrentHp()
-                .Where(hp => hp <= 0)
-                .Subscribe(_ =>
-                {
-                    unit.currentTile.isOccupied = false;
-                    iLevelSetter.SetLog($"<b><color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogCritical)}>" +
-                        $"{Unit.Data.DisplayName} died!</color></b>");
-                    Destroy(gameObject, 0.25f);
-                })
+            rIsActive
+                .Where(isActive => iLevelGetter.GetState().Value != Enum.LevelState.Ended)
+                .Subscribe(OnIsActive)
                 .AddTo(disposablesTerminal);
-
-            rIsActive.Subscribe(OnIsActive)
-                    .AddTo(disposablesTerminal);
 
             iSequenceGetter.GetActiveUnit()
                 .Where(unit => (unit != null))
@@ -129,9 +141,14 @@
         {
             if (isActive)
             {
-                rIsMoveAllowed.Value = true;
-                rIsActionAllowed.Value = true;
+                iLevelSetter.SetLog($"--------------------");
+                iLevelSetter.SetLog($"<color=#" +
+                    $"{ColorUtility.ToHtmlStringRGB(iThemeColors.GetTeamColor(Unit.Data.Team))}>" +
+                    $"{Unit.Data.DisplayName}</color>'s turn.");
             }
+
+            rIsMoveAllowed.Value = isActive;
+            rIsActionAllowed.Value = isActive;   
         }
 
         private void OnTurnFinished()
@@ -140,8 +157,6 @@
             rIsMoveAllowed.Value = false;
             rIsActionAllowed.Value = false;
 
-            iLevelSetter.SetLog($"<color=#{ColorUtility.ToHtmlStringRGB(iThemeColors.LogInfo)}" +
-                $">----------------------</color>");
             iSequenceSetter.FinishSequence(Unit);
         }
 
@@ -164,9 +179,11 @@
         {
             rIsMoveAllowed.Value = false;
             
-            if ((Unit.Data.Team == Enum.Team.Player) && rIsActionAllowed.Value)
+            if ((Unit.Data.Team == Enum.Team.Player) 
+                && rIsActionAllowed.Value
+                && iLevelGetter.GetState().Value != Enum.LevelState.Ended)
             {
-                iLevelSetter.SetLog($"Waiting for action...");
+                iLevelSetter.SetLog($"Awaiting action...");
             }
         }
 
@@ -174,9 +191,11 @@
         {
             rIsActionAllowed.Value = false;
 
-            if ((Unit.Data.Team == Enum.Team.Player) && rIsMoveAllowed.Value)
+            if ((Unit.Data.Team == Enum.Team.Player) 
+                && rIsMoveAllowed.Value
+                && iLevelGetter.GetState().Value != Enum.LevelState.Ended)
             {
-                iLevelSetter.SetLog($"Waiting for move...");
+                iLevelSetter.SetLog($"Awaiting move...");
             }
         }
 

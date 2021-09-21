@@ -74,6 +74,7 @@
             iEnemySetter.SetStatus(TeamStatus.InPlay);
             iPlayerSetter.SetStatus(TeamStatus.InPlay);
             iLevelSetter.SetState(LevelState.InPlay);
+            iLevelSetter.SetLog($"-------GAME START!-------");
 
             SetUpUnitsObserver();
         }
@@ -123,6 +124,7 @@
             if (aliveEnemies == 0 || alivePlayers == 0)
             {
                 iLevelSetter.SetState(LevelState.Ended);
+                iLevelSetter.SetLog("-------GAME OVER!-------");
             }
         }
 

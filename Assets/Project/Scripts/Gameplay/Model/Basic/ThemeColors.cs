@@ -42,7 +42,7 @@
 
         #region Class Implementation
 
-        public Color GetBGColor(Team team)
+        public Color GetTeamColor(Team team)
         {
             return (team == Team.Player) ? playerUnitBG : enemyUnitBG;
         }
